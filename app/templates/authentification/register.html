@@ -1,11 +1,6 @@
 <h1> Nouvelle idéntitté</h1>
-{% if boolean is True %}
-    <p style="color:red">{{ error_msg }} </p>
-
-    <h4>{{ msg }} </h4>
-    <h4>{{ pass_hash }} </h4>
-    <h4>{{ pass_norm }} </h4>
-{% endif %}
+ <p style="color:red">{{ error_msg }} </p>
+ <h4>{{ msg }} </h4>
 <form action="{% url 'register' %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
