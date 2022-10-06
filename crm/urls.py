@@ -20,5 +20,6 @@ import app.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', app.views.auth),
-    path('register/', app.views.auth),
+    path('register/', app.views.new_user, name='register'),
+    path('auth/', app.views.auth, name='authentification'),
 ]

@@ -1,13 +1,13 @@
-<h1> Nouvelle idéntitté</h1>
+<h1> S'identifier</h1>
+
 {% if boolean is True %}
     <p style="color:red">{{ error_msg }} </p>
 
     <h4>{{ msg }} </h4>
-    <h4>{{ pass_hash }} </h4>
-    <h4>{{ pass_norm }} </h4>
+
 {% endif %}
-<form action="{% url 'register' %}" method="POST">
+<form action="{% url 'authentification' %}" method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ auth.as_p }}
     <input type="submit" value="OK">
 </form>
