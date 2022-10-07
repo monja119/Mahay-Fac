@@ -88,9 +88,65 @@ def home(request):
     text = 'Welcome'
 
     try:
-        session = request.session['id']
+        session_id = request.session['id']
         msg = 'ok'
         return render(request, 'tab/home.html', locals())
+    except KeyError:
+        return redirect(auth)
+
+
+def profile(request):
+    # session is set ?
+    try:
+        session_id = request.session['id']
+
+        # selecting from db
+        user = User.objects.get(id=session_id)
+        first_name = user.first_name
+        last_name = user.last_name
+        user_gender = user.gender
+
+        user_company = user.company
+        user_function = user.function
+
+        user_address = user.address
+        user_tel = user.tel
+        user_mail = user.mail
+
+        # if wanted to modify
+        if request.GET:
+            if 'update' in request.GET:
+                return render(request, 'tab/profile_update.html', locals())
+
+            else:
+                return render(request, 'tab/profile.html', locals())
+
+        elif request.POST:
+            user = User.objects.get(id=session_id)
+            # about
+            user.first_name, user.last_name = first_name, last_name = request.POST['first_name'], request.POST['last_name']
+
+            # company
+            user.company = user_company = request.POST['company']
+            user.function = user_function = request.POST['function']
+
+            # contact
+            user.address = user_address = request.POST['address']
+            user.tel = user_tel = request.POST['tel']
+
+            if user_mail != request.POST['mail']:
+                user.mail = user_mail = request.POST['mail']
+                try:
+                    error_msg = 'Mail déjà utilisé'
+                    verify = User.objects.get(mail=user_mail)
+                except User.DoesNotExist:
+                    user.save()
+            else:
+                user.save()
+            return render(request, 'tab/profile.html', locals())
+        else:
+            return render(request, 'tab/profile.html', locals())
+
     except KeyError:
         return redirect(auth)
 

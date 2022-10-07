@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ first_name }} {{ last_name}} {% endblock %}
+
+{% block content %}
+
+    <p>
+        {{ first_name }} <br>
+        {{ last_name }} <br>
+        {{ user_gender }} <br>
+        {{ user_company }} <br>
+        {{ user_function }} <br>
+        {{ user_address }} <br>
+        {{ user_tel }} <br>
+        {{ user_mail }} <br>
+        {{ get }} <br>
+    </p>
+
+    <a href="http://localhost:8000/profile/?update={{ session_id }}">
+
+        <input type="button" value="Mettre à jour">
+
+    </a>
+{% endblock %}

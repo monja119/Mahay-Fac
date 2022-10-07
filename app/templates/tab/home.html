@@ -1,4 +1,12 @@
-<h1>
-    Wellcome !
-</h1>
-{{ msg }}
+{% extends 'base.html' %}
+
+{% block title %} Acceuil {% endblock %}
+
+{% block content %}
+
+    <h1>
+        Wellcome !
+    </h1>
+    {{ msg }}
+
+{% endblock %}

@@ -1,1 +1,37 @@
-{{ msg }}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            {% block title %}
+                hi crm
+            {% endblock %}
+
+        </title>
+    </head>
+
+    <body>
+        <header>
+            <ul>
+                <li>
+                    <h4>
+                        <a href="{% url 'profile' %}">
+                            Me
+                        </a>
+                    </h4>
+                </li>
+                <li>
+                    <h4>
+                        My Company
+                    </h4>
+                </li>
+                <li>
+                    <h4>
+                        My Paiment
+                    </h4>
+                </li>
+            </ul>
+        </header>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

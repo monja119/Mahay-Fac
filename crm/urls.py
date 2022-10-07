@@ -16,15 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 import app.views
+import re
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path('^auth/$', app.views.auth),
+    re_path(r'^auth/$', app.views.auth),
 
     # form
-    re_path('^register/$', app.views.new_user, name='register'),
-    re_path('^auth/$', app.views.auth, name='authentification'),
+    re_path(r'^register/$', app.views.new_user, name='register'),
+    re_path(r'^auth/$', app.views.auth, name='authentification'),
 
     # tab
-    re_path('^home/$', app.views.home, name='home'),
+    re_path(r'^home/$', app.views.home, name='home'),
+    re_path(r'profile/', app.views.profile, name='profile'),
 ]
