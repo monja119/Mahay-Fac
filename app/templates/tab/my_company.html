@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} My company {% endblock %}
+
+{% block content %}
+<h1> Mes compagnies : </h1>
+<ol>
+    <li> compagnie une</li>
+    <li> compagnie deux</li>
+</ol>
+
+<a href="{% url 'create_company' %}">
+    <input type="button" value="Créer une compagnie">
+</a>
+{% endblock %}

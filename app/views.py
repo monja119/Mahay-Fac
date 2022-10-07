@@ -1,3 +1,4 @@
+import app.views
 from app.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -150,3 +151,10 @@ def profile(request):
     except KeyError:
         return redirect(auth)
 
+
+def my_company(request):
+    return render(request, 'tab/my_company.html', locals())
+
+
+def create_company(request):
+    return render(request, 'creation/company.html', locals())

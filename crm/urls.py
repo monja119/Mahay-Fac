@@ -29,4 +29,6 @@ urlpatterns = [
     # tab
     re_path(r'^home/$', app.views.home, name='home'),
     re_path(r'profile/', app.views.profile, name='profile'),
+    re_path(r'company/', app.views.my_company, name='my_company'),
+    re_path(r'create/company', app.views.create_company, name='create_company'),
 ]
