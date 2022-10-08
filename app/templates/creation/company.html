@@ -6,4 +6,10 @@
     <h1>
         Création compagnie
     </h1>
+    <form method="post" action="{% url 'create_company' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Créer">
+    </form>
+
 {% endblock %}

@@ -4,9 +4,15 @@
 
 {% block content %}
 <h1> Mes compagnies : </h1>
+
 <ol>
-    <li> compagnie une</li>
-    <li> compagnie deux</li>
+    {% for company in companies %}
+        <li>
+            <a href="http://localhost:8000/check/?company={{ company.id }}">
+            {{ company.name }}
+            </a>
+        </li>
+    {% endfor %}
 </ol>
 
 <a href="{% url 'create_company' %}">

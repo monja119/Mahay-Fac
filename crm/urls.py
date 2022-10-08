@@ -21,6 +21,7 @@ import re
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^auth/$', app.views.auth),
+    re_path(r'^$', app.views.home),
 
     # form
     re_path(r'^register/$', app.views.new_user, name='register'),
@@ -28,7 +29,11 @@ urlpatterns = [
 
     # tab
     re_path(r'^home/$', app.views.home, name='home'),
-    re_path(r'profile/', app.views.profile, name='profile'),
-    re_path(r'company/', app.views.my_company, name='my_company'),
-    re_path(r'create/company', app.views.create_company, name='create_company'),
+    re_path(r'^profile/$', app.views.profile, name='profile'),
+    re_path(r'^company/', app.views.my_company, name='my_company'),
+    re_path(r'^create/company', app.views.create_company, name='create_company'),
+
+    # check
+    re_path(r'check/(?P<arg>)$', app.views.check, name='check'),
+    re_path(r'image/$', app.views.image, name='image'),
 ]

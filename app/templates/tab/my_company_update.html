@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %} Mettre à jour - {{ company.name }} {% endblock %}
+
+{% block content %}
+    <p style="color:red"> {{ error_msg }} </p>
+    <form method="POST" action="{% url 'my_company' %}">
+        {% csrf_token %}
+
+        <input type="number" value="{{ company.id }}" name="id" hidden>
+
+        <label for="first_name">
+            Nom :
+        </label>
+            <input type="text" name="name" value="{{ company.name }}">
+        <br>
+        <label for="status">
+            Status juridique :
+        </label>
+            <input type="text" name="status" value="{{ company.status }}">
+        <br>
+        <label for="number">
+            numéro SIRET ou SIREN et code NAF :
+        </label>
+            <input type="text" name="number" value="{{ company.number }}">
+        <br>
+        <label for="creating_date">
+            Date de création :
+        </label>
+            <input type="text" name="creating_date" value="{{ company.creating_date }}">
+        <br>
+        <label for="sector">
+            Secteur :
+        </label>
+            <input type="text" name="sector" value="{{ company.sector }}">
+        <br>
+        <label for="address">
+            Addresse :
+        </label>
+            <input type="text" name="address" value="{{ company.address }}">
+        <br>
+        <label for="mail">
+            Email :
+        </label>
+            <input type="email" name="mail" value="{{ company.mail }}">
+        <br>
+        <label for="tel">
+            Date de création :
+        </label>
+            <input type="text" name="tel" value="{{ company.tel }}">
+        <br>
+        <label for="website">
+            Site web :
+        </label>
+            <input type="text" name="website" value="{{ company.website }}">
+        <br>
+        <label for="salary_number">
+            Nombre de salariés :
+        </label>
+            <input type="number" name="salary_number" value="{{ company.salary_number }}">
+        <br>
+
+        <input type="submit" value="Mettre à jour">
+    </form>
+
+{% endblock %}

@@ -1,9 +1,9 @@
 import app.views
-from app.models import User
+from app.models import User, Company
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import request
-from app.forms import NewUserForm, Authentificaton
+from app.forms import NewUserForm, Authentificaton, CreateCompany
 from django.contrib.auth.hashers import make_password, check_password
 
 
@@ -85,6 +85,7 @@ def auth(request):
 
         return render(request, 'authentification/auth.html', locals())
 
+
 def home(request):
     text = 'Welcome'
 
@@ -92,6 +93,7 @@ def home(request):
         session_id = request.session['id']
         msg = 'ok'
         return render(request, 'tab/home.html', locals())
+
     except KeyError:
         return redirect(auth)
 
@@ -119,13 +121,17 @@ def profile(request):
             if 'update' in request.GET:
                 return render(request, 'tab/profile_update.html', locals())
 
+            elif 'logout' in request.GET:
+                del request.session['id']
+                return redirect('authentification')
             else:
                 return render(request, 'tab/profile.html', locals())
 
         elif request.POST:
             user = User.objects.get(id=session_id)
             # about
-            user.first_name, user.last_name = first_name, last_name = request.POST['first_name'], request.POST['last_name']
+            user.first_name, user.last_name = first_name, last_name = request.POST['first_name'], request.POST[
+                'last_name']
 
             # company
             user.company = user_company = request.POST['company']
@@ -153,8 +159,83 @@ def profile(request):
 
 
 def my_company(request):
-    return render(request, 'tab/my_company.html', locals())
+    try:
+        session_id = request.session['id']
+        companies = 'None'
+        # checking companies
+        try:
+            if request.GET:
+                if 'update' in request.GET:
+                    id = request.GET['update']
+                    company = Company.objects.get(id=id)
+                    return render(request, 'tab/my_company_update.html', locals())
+            elif request.POST:
+                company = Company.objects.get(id=request.POST['id'])
+                company.name = request.POST['name']
+                company.status = request.POST['status']
+                company.number = request.POST['number']
+                company.sector = request.POST['sector']
+                company.creating_date = request.POST['creating_date']
+                company.address = request.POST['address']
+                company.mail = request.POST['mail']
+                company.tel = request.POST['tel']
+                company.website = request.POST['website']
+                company.salary_number = request.POST['salary_number']
+
+                company.save()
+                return  redirect('http://localhost:8000/check/?company={}'.format(request.POST['id']))
+
+                company.save()
+                return redirect('ok')
+            else:
+                company = Company.objects.filter(author=session_id).order_by('id').reverse()
+                companies = company
+        except Company.DoesNotExist:
+            pass
+        return render(request, 'tab/my_company.html', locals())
+    except KeyError:
+        return redirect(auth)
 
 
 def create_company(request):
-    return render(request, 'creation/company.html', locals())
+    try:
+        session_id = request.session['id']
+        form = CreateCompany(request.POST)
+        if form.is_valid():
+            company = Company()
+            company.name = form.cleaned_data['nom']
+            company.status = form.cleaned_data['status_juridique']
+            company.number = form.cleaned_data['numero_SIRET_ou_SIREN_et_code_NAF']
+            company.sector = form.cleaned_data['secteur']
+            company.creating_date = form.cleaned_data['date_de_creation']
+            company.address = form.cleaned_data['adresse']
+            company.mail = form.cleaned_data['email']
+            company.tel = form.cleaned_data['tel']
+            company.website = form.cleaned_data['siteweb']
+            company.salary_number = form.cleaned_data['nombre_de_salaries']
+
+            company.author = session_id
+
+            company.save()
+            return redirect(my_company)
+        else:
+            form = CreateCompany()
+            return render(request, 'creation/company.html', locals())
+    except KeyError:
+        return redirect(auth)
+
+
+def check(request, arg):
+    url = request.get_full_path()
+    arg = url.split('?')[1]
+    view = arg.split('=')[0]
+    value = arg.split('=')[1]
+
+    if request.method == 'GET':
+        if 'company' in request.GET:
+            data = eval('{}'.format(str(view).capitalize())).objects.get(id=request.GET['company'])
+            return render(request, 'check/company.html', locals())
+
+
+def image(request):
+    return render(request, 'test.html', locals())

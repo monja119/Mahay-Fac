@@ -24,3 +24,19 @@ class Authentificaton(forms.Form):
     Email = forms.EmailField(max_length=50)
     Password = forms.CharField(widget=forms.PasswordInput, required=True)
 
+
+class CreateCompany(forms.Form):
+    # about
+    nom = forms.CharField(max_length=50)
+    status_juridique = forms.CharField(max_length=50)
+    numero_SIRET_ou_SIREN_et_code_NAF = forms.CharField(max_length=50)
+    secteur = forms.CharField(max_length=50)
+    date_de_creation = forms.CharField(max_length=50)
+    adresse = forms.CharField(max_length=50)
+    email = forms.EmailField(max_length=50)
+    tel = forms.IntegerField()
+
+    # not required
+    siteweb = forms.CharField(max_length=50, required=False)
+    nombre_de_salaries = forms.IntegerField(required=False)
+
