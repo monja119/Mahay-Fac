@@ -1,12 +1,16 @@
 from django.db import models
 
+gender_choice = [
+    ('male', 'Male'),
+    ('female', 'Female'),
+]
 
 class User(models.Model):
     # about
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    gender = models.CharField(max_length=6)
-
+    picture = models.FileField(upload_to='images/')
+    gender = models.CharField(max_length=6, choices=gender_choice, default='male')
     # company
     company = models.CharField(max_length=50)
     function = models.CharField(max_length=50)
@@ -18,6 +22,7 @@ class User(models.Model):
 
     # pass
     password = models.CharField(max_length=200)
+    repeate = models.CharField(max_length=200)
 
 
 class Client(models.Model):

@@ -1,23 +1,13 @@
+from django.forms import ModelForm
 from django import forms
+from app.models import User
 
 
-class NewUserForm(forms.Form):
-    # about
-    first_name = forms.CharField(max_length=50)
-    last_name = forms.CharField(max_length=50)
-    gender = forms.ChoiceField(choices=[('male', 'male'), ('female', 'female')], widget=forms.RadioSelect)
-    # company
-    company = forms.CharField(max_length=50)
-    function = forms.CharField(max_length=50)
-
-    # contact
-    address = forms.CharField(max_length=50)
-    tel = forms.IntegerField()
-    mail = forms.EmailField(max_length=50)
-
-    # pass
-    password = forms.CharField(max_length=50)
-    repeate = forms.CharField(max_length=50)
+class NewUserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'picture', 'gender'
+                  , 'company', 'function', 'address', 'tel', 'mail', 'password', 'repeate']
 
 
 class NewClientForm(forms.Form):

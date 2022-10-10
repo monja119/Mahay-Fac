@@ -1,3 +1,5 @@
+import os
+
 from app.models import User, Company, Client, Invoice
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -9,28 +11,39 @@ import datetime
 
 # forms view
 def new_user(request):
-    form = NewUserForm(request.POST)
+    form = NewUserForm(request.POST, request.FILES)
     if form.is_valid():
-        msg, error_msg = 'register ok', ''
-
+        user = User()
+        msg, error_msg = '', ''
         # auth
         mail, password, repeate = form.cleaned_data['mail'], form.cleaned_data['password'], form.cleaned_data['repeate']
+
+        picture = form.cleaned_data['picture']
+        content_type = picture.content_type
 
         # verification si les deux mots de passe sont les même
         if password != repeate:
             error_msg = 'les deux mots de passe ne sont pas les même'
             return render(request, 'authentification/register.html', locals())
+        elif 'image' not in content_type:
+            error_msg = 'Type d\'image non supporté '
+            return render(request, 'authentification/register.html', locals())
         else:
             # ajout à la base de données
-            user = User()
+
             try:
                 User.objects.get(mail=mail)
                 error_msg = 'Email déjà utilisé par un autre utilisateur'
+                form = NewUserForm()
+                context = {
+                    'form': form
+                }
+                return render(request, 'authentification/register.html', locals())
             except User.DoesNotExist:
                 # about
+                form.save()
                 user.first_name, user.last_name = form.cleaned_data['first_name'], form.cleaned_data['last_name']
                 user.gender = form.cleaned_data['gender']
-
                 # company
                 user.company = form.cleaned_data['company']
                 user.function = form.cleaned_data['function']
@@ -40,6 +53,15 @@ def new_user(request):
                 user.tel = form.cleaned_data['tel']
                 user.mail = form.cleaned_data['mail']
 
+                # managing profile picture
+                path_to_picture = 'app/media/images'.format(picture)
+                file_full_name = str(picture)
+                file_name = file_full_name.split('.')[:-1]
+                file_type = file_full_name.split('.')[-1]
+                new_name = '{}/{}.{}'.format(path_to_picture, user.mail, file_type)
+                os.rename('{}/{}'.format(path_to_picture, picture), new_name)
+
+                user.picture = new_name
                 user.password = make_password(password, None, 'default')
 
                 user.save()
@@ -49,6 +71,9 @@ def new_user(request):
 
     else:
         form = NewUserForm()
+        context = {
+            'form': form
+        }
         return render(request, 'authentification/register.html', locals())
 
 
@@ -115,6 +140,7 @@ def profile(request):
         user_address = user.address
         user_tel = user.tel
         user_mail = user.mail
+        user_picture = str(user.picture)
 
         # if wanted to modify
         if request.GET:
@@ -372,4 +398,3 @@ def remove(request, arg):
             company = Company.objects.get(id=request.GET['client'])
             company.delete()
             return redirect('http://localhost:8000/company')
-
