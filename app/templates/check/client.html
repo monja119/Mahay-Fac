@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ client.full_name }}{% endblock %}
+
+{% block content %}
+<p>
+    <b>Nom complet</b> :
+    {% if client.gender == 'male' %}
+        Mr
+    {% else %}
+        Mme
+    {% endif %}
+
+    {{ client.full_name }}
+    <br>
+    <b>Companie</b> : {{ company.name }} <br>
+    <b>Email</b> : {{ client.mail }} <br>
+
+    <a href="http://localhost:8000/client/?update={{ client.id}}">
+        <input type="button" value="Mettre à jour">
+    </a>
+
+    <a href="http://localhost:8000/remove/?client={{ client.id}}&&company={{ company.id }}">
+        <input type="button" value="Supprimer">
+    </a>
+</p>
+
+{% endblock %}

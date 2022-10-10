@@ -1,8 +1,46 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Création de facture {% endblock %}
 
 {% block content %}
-    <h1>
+<h1 xmlns="http://www.w3.org/1999/html">
         Création de facture
     </h1>
+
+    <form method="POST" action="{% url 'create_invoice' %}">
+        {% csrf_token %}
+        <input type="number" name="number" id="number" hidden>
+        <input type="number" name="company_id" value="{{ company_id }}" hidden>
+        <section>
+            <label for="destination"> Destinataire :</label>
+            <input type="text" name="destination">
+            <br>
+            <br>
+        </section>
+        <section id="section">
+            <label for="item1"> Objet :</label>
+            <input type="text" name="item1">
+            <br>
+            <label for="quantity1"> Quantité :</label>
+            <input type="number" name="quantity1">
+            <br>
+            <label for="unitePrice1"> Prix unitaire :</label>
+            <input type="number" name="unitePrice1">
+            <br>
+        </section>
+        <input type="button" value="Ajouter" onclick="add()">
+        <br>
+        <br>
+        <section>
+            <label for="tax"> Tax (%) :</label>
+            <input type="number" name="tax">
+            <br>
+        </section>
+
+        <input type="submit" value="OK">
+
+    </form>
+
+<script src="{% static 'css/create_invoice.js'%}">
+</script>
 {% endblock %}

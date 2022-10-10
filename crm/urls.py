@@ -31,6 +31,7 @@ urlpatterns = [
     re_path(r'^home/$', app.views.home, name='home'),
     re_path(r'^profile/$', app.views.profile, name='profile'),
     re_path(r'^company/', app.views.my_company, name='my_company'),
+    re_path(r'^client/', app.views.client, name='client'),
 
     # creation
     re_path(r'^create/company', app.views.create_company, name='create_company'),
@@ -39,4 +40,7 @@ urlpatterns = [
 
     # check
     re_path(r'check/(?P<arg>)$', app.views.check, name='check'),
+
+    # remove
+    re_path(r'remove/(?P<arg>)$', app.views.remove, name='remove'),
 ]

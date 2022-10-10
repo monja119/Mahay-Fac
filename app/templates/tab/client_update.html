@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ client.full_name }} {% endblock %}
+
+{% block content %}
+
+    <h1>
+        {{ client.full_name }} mettre à jour
+    </h1>
+    <form method="POST" action="{% url 'client' %}">
+        {% csrf_token %}
+
+        <label for="full_name">
+            Nom complet :
+        </label>
+            <input type="text" name="full_name" value="{{ client.full_name }}">
+        <br>
+        <input type="hidden" value="{{ company.id }}"  name="company_id">
+        <input type="hidden" value="{{ client.id }}"  name="client_id">
+        <input type="submit" value="Ajouter">
+    </form>
+{% endblock %}

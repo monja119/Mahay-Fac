@@ -8,6 +8,7 @@
     <form method="GET" action="{% url 'create_client' %}">
         {% csrf_token %}
         {{ form.as_p }}
+        <input type="hidden" value="{{ company_id }}"  name="company_id">
         <input type="submit" value="Ajouter">
     </form>
 {% endblock %}

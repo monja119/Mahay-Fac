@@ -1,5 +1,4 @@
-import app.views
-from app.models import User, Company
+from app.models import User, Company, Client, Invoice
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import request
@@ -183,7 +182,7 @@ def my_company(request):
                 company.salary_number = request.POST['salary_number']
 
                 company.save()
-                return  redirect('http://localhost:8000/check/?company={}'.format(request.POST['id']))
+                return redirect('http://localhost:8000/check/?company={}'.format(request.POST['id']))
 
                 company.save()
                 return redirect('ok')
@@ -226,25 +225,105 @@ def create_company(request):
 
 
 def create_invoice(request):
-    return render(request, 'creation/invoice.html', locals())
+    if request.GET:
+        if 'company' in request.GET:
+            company_id = request.GET['company']
+    if request.POST:
+        invoice = Invoice()
+        company_id = request.POST['company_id']
+
+        invoice.destination = request.POST['destination']
+        invoice.field_number = int(request.POST['number'])
+        invoice.company = company_id
+
+        # numerous field
+        for n in range(1, invoice.field_number + 1):
+            if n == 1:
+                invoice.item += '{}'.format(request.POST['item{}'.format(n)])
+                invoice.quantity += '{}'.format(request.POST['quantity{}'.format(n)])
+                invoice.unite_price += '{}'.format(request.POST['unitePrice{}'.format(n)])
+            else:
+                invoice.item += ', {}'.format(request.POST['item{}'.format(n)])
+                invoice.quantity += ', {}'.format(request.POST['quantity{}'.format(n)])
+                invoice.unite_price += ', {}'.format(request.POST['unitePrice{}'.format(n)])
+
+        tax = int(request.POST['tax'])
+
+        return HttpResponse(invoice.item)
+    else:
+        return render(request, 'creation/invoice.html', locals())
+
+
+def client(request):
+    if request.GET:
+        if 'update' in request.GET:
+            client = Client.objects.get(id=request.GET['update'])
+            company = Company.objects.get(id=client.company_id)
+            return render(request, 'tab/client_update.html', locals())
+
+    if request.POST:
+        client_id = request.POST['client_id']
+        company_id = request.POST['company_id']
+
+        client = Client.objects.get(id=client_id)
+        client.full_name = request.POST['full_name']
+        client.save()
+        url = 'http://localhost:8000/check/?client={}'.format(str(request.POST['client_id']))
+        return redirect(url)
+
 
 def create_client(request):
+    if 'company' in request.GET:
+        company_id = request.GET['company']
     company = ''
     form = NewClientForm(request.GET)
     if form.is_valid():
-        return HttpResponse('validé')
+        client = Client()
+        client.full_name = form.cleaned_data['full_name']
+        client.gender = form.cleaned_data['gender']
+        client.company = form.cleaned_data['company']
+        client.mail = form.cleaned_data['mail']
+        client.company_id = request.GET['company_id']
+        client.save()
+        url = 'http://localhost:8000/check/?clients={}'.format(str(client.company_id))
+        return redirect(url)
 
     else:
         form = NewClientForm()
         return render(request, 'creation/client.html', locals())
 
+
 def check(request, arg):
     url = request.get_full_path()
     arg = url.split('?')[1]
     view = arg.split('=')[0]
-    value = arg.split('=')[1]
 
     if request.method == 'GET':
         if 'company' in request.GET:
             data = eval('{}'.format(str(view).capitalize())).objects.get(id=request.GET['company'])
             return render(request, 'check/company.html', locals())
+
+        if 'clients' in request.GET:
+            company = Company.objects.get(id=request.GET['clients'])
+            clients = Client.objects.filter(company_id=company.id).order_by('full_name')
+            return render(request, 'check/clients.html', locals())
+
+        if 'client' in request.GET:
+            client = Client.objects.get(id=request.GET['client'])
+            company = Company.objects.get(id=client.company_id)
+            return render(request, 'check/client.html', locals())
+
+
+def remove(request, arg):
+    msg = 'Erreur'
+    if request.GET:
+        if 'client' in request.GET and 'company' in request.GET:
+            client = Client.objects.get(id=request.GET['client'])
+            client.delete()
+            msg = 'Client supprimé avec succès'
+    return HttpResponse("""
+        <p> client suprimé avec succés </p><br>
+        <a href="http://localhost:8000/check/?clients={}">
+        <input type="button" value="Mes clients">
+    </a>
+    """.format(request.GET['company']))

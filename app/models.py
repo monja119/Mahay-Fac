@@ -20,6 +20,13 @@ class User(models.Model):
     password = models.CharField(max_length=200)
 
 
+class Client(models.Model):
+    full_name = models.CharField(max_length=50)
+    gender = models.CharField(max_length=6)
+    company = models.CharField(max_length=50)
+    mail = models.EmailField(max_length=50)
+    company_id = models.IntegerField()
+
 class Company(models.Model):
     # about
     name = models.CharField(max_length=50)
@@ -37,4 +44,14 @@ class Company(models.Model):
 
     #
     author = models.IntegerField()
+
+
+class Invoice(models.Model):
+    company = models.IntegerField()
+    destination = models.CharField(max_length=50)
+    field_number = models.IntegerField()
+    item = models.TextField()
+    quantity = models.CharField(max_length=100)
+    unite_price = models.CharField(max_length=50)
+    tax = models.IntegerField()
 

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ company.name }} - Clients{% endblock %}
+
+{% block content %}
+    <h1> {{ company.name }} - Clients </h1>
+
+    <a href="http://localhost:8000/create/client/?company={{ company.id }}">
+        <input type="button" value="Ajouter un client">
+    </a>
+    <ul>
+        {% for client in clients %}
+        <a href="http://localhost:8000/check/?client={{ client.id }}"><li> {{ client.full_name }} </li></a>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

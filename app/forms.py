@@ -49,9 +49,3 @@ class CreateCompany(forms.Form):
     siteweb = forms.CharField(max_length=50, required=False)
     nombre_de_salaries = forms.IntegerField(required=False)
 
-
-class CreateInvoice(forms.Form):
-    date = forms.DateField(input_formats=None)
-
-    # to
-    destinataire = forms.CharField(max_length=80)
