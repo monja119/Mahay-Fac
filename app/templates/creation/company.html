@@ -3,13 +3,24 @@
 {% block title %} Création Compagnie {% endblock %}
 
 {% block content %}
-    <h1>
-        Création compagnie
-    </h1>
+<div class="col-10 justify-content-center " >
+    <div class="row justify-content-center mt-4">
+        <h1>
+            <h1>
+                Création compagnie
+            </h1>
+        </h1>
+    </div>
+
+
     <form method="post" action="{% url 'create_company' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Créer">
+        <div class="row justify-content-center">
+            <input class="btn-primary" type="submit" value="Créer">
+        </div>
     </form>
+
+</div>
 
 {% endblock %}

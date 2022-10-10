@@ -3,12 +3,24 @@
 {% block title %} Nouveau client {% endblock %}
 
 {% block content %}
-    <h1> Nouveau client  </h1>
+<div class="col-10 justify-content-center " >
+    <div class="row justify-content-center mt-4">
+        <h1>
+            <h1>
+                Nouveau client
+            </h1>
+        </h1>
+    </div>
 
     <form method="GET" action="{% url 'create_client' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="hidden" value="{{ company_id }}"  name="company_id">
-        <input type="submit" value="Ajouter">
+            <div class="row justify-content-center">
+        <a href="{% url 'create_client' %}">
+            <input type="submit" value="Ajouter" class="btn-primary">
+        </a>
+    </div>
     </form>
+</div>
 {% endblock %}

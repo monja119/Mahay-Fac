@@ -9,30 +9,73 @@
             {% endblock %}
 
         </title>
-
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
+    <body style="height:100%">
+        <div class="container-fluid">
 
-    <body>
-        <header>
-            <ul>
-                <li>
+            <div class="row pt-3 bg-secondary ">
+                <div class="col-2 float-left">
                     <h4>
-                        <a href="{% url 'profile' %}">
-                            Me
-                        </a>
+                        Mahay Fac
                     </h4>
-                </li>
-                <li>
-                    <h4>
-                        <a href="{% url 'my_company' %}">
-                            My Company
-                        </a>
-                    </h4>
+                </div>
+                <div class="col-4">
+                </div>
 
-            </ul>
-        </header>
-        {% block content %}
-        {% endblock %}
+                <div class="d-flex align-items-end col-6 pb-3">
+                    <input type="text" name="search" placeholder="Rechercher" class="rounded" style="
+                    background-color:white;border:none;height:35px;width:80%;text-align:center
+                    ">
+                    <input type="submit" value="Rechercher" style="border:none;height:35px;width:19%;min-width:100px" class="ml-1 rounded">
+                </div>
+
+            </div>
+            <div class="row" style="height:100%">
+
+                <div class="col-2 bg-primary" style="height:700px">
+                    <a href="{% url 'profile' %}" style="text-decoration:none">
+                        <div class="row pt-2" style="background-color:black;border-bottom:1px solid blue">
+                                <p style="color:white;">  MON PROFILE</p>
+                        </div>
+                    </a>
+                    <a href="http://localhost:8000/profile/?update={{ session_id }}" style="text-decoration:none;color:black">
+                        <p class="ml-3">
+                            ~ Mettre à jour
+                        </p>
+                    </a>
+                    <a href="http://localhost:8000/profile/?logout={{ session_id }}" style="text-decoration:none;color:black">
+                        <p class="ml-3">
+                            ~ Se Deconnecter
+                        </p>
+                    </a>
+                    <a href="{% url 'my_company' %}" style="text-decoration:none">
+                        <div class="row pt-2" style="background-color:black">
+                                <p style="color:white;">  MA COMPAGNIE</p>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'my_company' %}" style="text-decoration:none;color:black">
+                        <p class="ml-3">
+                            ~ Mes Compagnies
+                        </p>
+                    </a>
+
+                    <a href="{% url 'create_company' %}" style="text-decoration:none;color:black">
+                        <p class="ml-3">
+                            ~ Créer
+                        </p>
+                    </a>
+
+
+                </div>
+
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
     </body>
 </html>
+
+

@@ -3,65 +3,65 @@
 {% block title %} Création de facture {% endblock %}
 
 {% block content %}
-    <h1>
-        Création de facture
-    </h1>
+<div class="col-10 justify-content-center " >
+    <div class="row justify-content-center mt-4">
+        <h1>
+            Création de facture
+        </h1>
+    </div>
+    <form method="POST" action="{% url 'create_invoice' %}">
 
-<form method="POST" action="{% url 'create_invoice' %}">
+        {% csrf_token %}
+        <input type="number" name="number" id="number" hidden>
+        <input type="number" name="company_id" value="{{ company_id }}" hidden>
+        <div class="row justify-content-center mt-4">
+            <input type="text" name="destination" placeholder="Destinataire ..." required>
+        </div>
+        <div class="row justify-content-center mt-1">
+            <input type="text" name="unity" placeholder="Unité" required>
+        </div>
+        <table id="invoice_sheet" style="border:none">
 
-    {% csrf_token %}
-    <input type="number" name="number" id="number" hidden>
-    <input type="number" name="company_id" value="{{ company_id }}" hidden>
 
-    <table id="invoice_sheet" style="border:none">
-        <caption>
-            <section>
-                <input type="text" name="destination" placeholder="Destinataire ..." required>
+            {% comment%} ITEMS {% endcomment %}
+            <tr>
+                <td class="invoice_item" style="text-align:center">
+                    Objets
+                </td>
+                <td class="invoice_item" style="text-align:center">
+                    Quantité
+                </td>
+                <td class="invoice_item" style="text-align:center">
+                    Prix unitaire
+                </td>
+            </tr>
+
+            <tr id="value">
+                <td class="invoice_item">
+                    <input type="text" name="item1" class="create_invoice_input" required>
+                </td>
+                <td class="invoice_item">
+                    <input type="number" name="quantity1" class="create_invoice_input" required>
+                </td>
+                <td class="invoice_item">
+                    <input type="number" name="unitePrice1" class="create_invoice_input" required>
+                </td>
+            </tr>
+            <tr id="tr_none">
+            </tr>
+        </table>
+
+        <section style="text-align:center">
+            <input type="button" value="Ajouter" onclick="add()">
                 <br>
+            <input type="number" name="tax" placeholder="Tax (%)" required>
                 <br>
-                <input type="text" name="unity" placeholder="Unité" required>
-            </section>
-        </caption>
+            <input type="submit" value="OK" style="margin:auto">
+        </section>
 
 
-        {% comment%} ITEMS {% endcomment %}
-        <tr>
-            <td class="invoice_item" style="text-align:center">
-                Objets
-            </td>
-            <td class="invoice_item" style="text-align:center">
-                Quantité
-            </td>
-            <td class="invoice_item" style="text-align:center">
-                Prix unitaire
-            </td>
-        </tr>
-
-        <tr id="value">
-            <td class="invoice_item">
-                <input type="text" name="item1" class="create_invoice_input" required>
-            </td>
-            <td class="invoice_item">
-                <input type="number" name="quantity1" class="create_invoice_input" required>
-            </td>
-            <td class="invoice_item">
-                <input type="number" name="unitePrice1" class="create_invoice_input" required>
-            </td>
-        </tr>
-        <tr id="tr_none">
-        </tr>
-    </table>
-
-    <section style="text-align:center">
-        <input type="button" value="Ajouter" onclick="add()">
-            <br>
-        <input type="number" name="tax" placeholder="Tax (%)" required>
-            <br>
-        <input type="submit" value="OK" style="margin:auto">
-    </section>
-
-
-    </form>
+        </form>
+</div>
 
 <script>
 

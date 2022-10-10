@@ -1,9 +1,17 @@
-body {
-    background-color: white;
-
+a{
+    text-decoration: none;
 
 }
+.invoice_value{
+    border: 1px solid black;
+    border-collapse : collapse;
+}
 
+.create_invoice_input{
+    border:none;
+    width:97%;
+    height:20px;
+}
 
 #invoice_sheet{
     border : 1px solid black;
@@ -16,15 +24,4 @@ body {
 .invoice_item{
     background-color:gray;
     border:1px solid black;
-}
-
-.invoice_value{
-    border: 1px solid black;
-    border-collapse : collapse;
-}
-
-.create_invoice_input{
-    border:none;
-    width:97%;
-    height:20px;
 }

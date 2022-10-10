@@ -3,14 +3,43 @@
 {% block title %} {{ company.name }} - Factures{% endblock %}
 
 {% block content %}
-<h1> {{ company.name }} </h1>
 
-    <ul>
+<div class="col-10">
+    <div class="row mt-4 justify-content-center">
+        <h3>
+            {{ company.name }}
+        </h3>
+    </div>
+
+
+    <div class="row mt-4 bg-secondary">
+        <div class="col-6">
+            Destinataire
+        </div>
+        <div class="col-4">
+            Numéro
+        </div>
+        <div class="col-2">
+            Création
+        </div>
+    </div>
         {% for invoice in invoices %}
             <a href="http://localhost:8000/check/?invoice={{ invoice.id }}">
-                <li style="color:black"> {{ invoice.destination}} </li>
-            </a>
-        {% endfor %}
-    </ul>
+                <div class="row">
+                    <div class="col-6">
+                        {{ invoice.destination }}
+                    </div>
 
+                    <div class="col-3">
+                        {{ invoice.number }}
+                    </div>
+                    <div class="col-2">
+                        {{ company.date }}
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+
+
+</div>
 {% endblock %}

@@ -1,8 +1,35 @@
-<h1> Nouvelle idéntitté</h1>
- <p style="color:red">{{ error_msg }} </p>
- <h4>{{ msg }} </h4>
-<form action="{% url 'register' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="OK">
-</form>
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>
+           Nouvelle Identité
+        </title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <h1> Nouvelle idéntitté</h1>
+            </div>
+
+            <div class="row justify-content-center">
+                <p style="color:red">{{ error_msg }} </p>
+                 <h4>{{ msg }} </h4>
+            </div>
+
+
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="row justify-content-center">
+                    <input type="submit" value="OK" class="btn-primary">
+                </div>
+            </form>
+        </div>
+    </body>
+
+
+

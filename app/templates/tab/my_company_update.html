@@ -3,6 +3,7 @@
 {% block title %} Mettre à jour - {{ company.name }} {% endblock %}
 
 {% block content %}
+<div class="col-10 justify-content-center " >
     <p style="color:red"> {{ error_msg }} </p>
     <form method="POST" action="{% url 'my_company' %}">
         {% csrf_token %}
@@ -62,5 +63,6 @@
 
         <input type="submit" value="Mettre à jour">
     </form>
+</div>
 
 {% endblock %}

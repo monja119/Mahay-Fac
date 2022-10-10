@@ -1,36 +1,58 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %} {{ data.name }} {% endblock %}
 
 {% block content %}
-<h1> COMPAGNIE : {{ data.name }} </h1>
+<div class="col-10 justify-content-center " >
+        <div style="border:none;box-shadow:1px 1px 3px" class="mt-3">
+            <div class="row justify-content-center">
+                <img src="{% static 'images/profile.png' %}" class="rounded-circle mt-5" style="width:150px;height:150px">
 
-<p>
-    <b>status</b> : {{ data.status }} <br>
-    <b>numéro SIRET ou SIREN et code NAF</b> : {{ data.number }} <br>
-    <b>secteur</b> : {{ data.sector }} <br>
-    <b>date de création</b> : {{ data.creating_date }} <br>
-    <b>addresse</b> : {{ data.address}} <br>
-    <b>Email</b> : {{ data.mail}} <br>
-    <b>Tel</b> : {{ data.tel}} <br>
-    <b>Site web</b> : {{ data.website}} <br>
-    <b>nombre des employés</b> : {{ data.salary_number}} <br>
-</br>
+            </div>
+            <div class="row mt-3 justify-content-center">
+                <h3>
+                    {{ data.name }}
+                </h3>
+            </div>
+            <div class="row mt-3 justify-content-center">
+                <p>
+                        <b>status</b> : {{ data.status }} <br>
+                        <b>numéro SIRET ou SIREN et code NAF</b> : {{ data.number }} <br>
+                        <b>secteur</b> : {{ data.sector }} <br>
+                        <b>date de création</b> : {{ data.creating_date }} <br>
+                        <b>addresse</b> : {{ data.address}} <br>
+                        <b>Email</b> : {{ data.mail}} <br>
+                        <b>Tel</b> : {{ data.tel}} <br>
+                        <b>Site web</b> : {{ data.website}} <br>
+                        <b>nombre des employés</b> : {{ data.salary_number}} <br>
 
-    <a href="http://localhost:8000/check/?invoices={{ data.id }}">
-        <input type="button" value="Mes factures">
-    </a>
+                </p>
+            </div>
+            <div class="row mt-3 justify-content-center">
+                <a href="http://localhost:8000/check/?invoices={{ data.id }}">
+                    <input type="button" value="Mes factures" class="btn-primary">
+                </a>
 
-    <a href="http://localhost:8000/check/?clients={{ data.id }}">
-        <input type="button" value="Mes clients">
-    </a>
+                <a href="http://localhost:8000/check/?clients={{ data.id }}" >
+                    <input type="button" value="Mes clients" class="btn-primary">
+                </a>
 
-    <a href="http://localhost:8000/create/invoice?company={{ data.id }}">
-        <input type="button" value="Elaborer une facture">
-    </a>
+                <a href="http://localhost:8000/create/invoice?company={{ data.id }}" >
+                    <input type="button" value="Elaborer une facture" class="btn-primary">
+                </a>
 
-    <a href="http://localhost:8000/company/?update={{ data.id}}">
-        <input type="button" value="Mettre à jour">
-    </a>
+                <a href="http://localhost:8000/company/?update={{ data.id}}" >
+                    <input type="button" value="Mettre à jour" class="btn-primary">
+                </a>
+
+                <a href="http://localhost:8000/remove/?company={{ data.id}}" >
+                    <input type="button" value="Supprimer" class="btn-primary">
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
 
     {% endblock %}

@@ -3,19 +3,52 @@
 {% block title %} My company {% endblock %}
 
 {% block content %}
-<h1> Mes compagnies : </h1>
 
-<ol>
-    {% for company in companies %}
-        <li>
+
+<div class="col-10">
+    <div class="row mt-4 justify-content-center">
+        <h3>
+            Mes compagnies
+        </h3>
+    </div>
+
+
+    <div class="row mt-4 bg-secondary">
+        <div class="col-1">
+            Id
+        </div>
+        <div class="col-6">
+            Nom
+        </div>
+
+        <div class="col-3">
+            Secteur
+        </div>
+        <div class="col-2">
+            Création
+        </div>
+    </div>
+        {% for company in companies %}
             <a href="http://localhost:8000/check/?company={{ company.id }}">
-            {{ company.name }}
-            </a>
-        </li>
-    {% endfor %}
-</ol>
+                <div class="row">
+                    <div class="col-1">
+                        {{ company.id }}
+                    </div>
+                    <div class="col-6">
+                        {{ company.name }}
+                    </div>
 
-<a href="{% url 'create_company' %}">
-    <input type="button" value="Créer une compagnie">
-</a>
+                    <div class="col-3">
+                        {{ company.sector }}
+                    </div>
+                    <div class="col-2">
+                        {{ company.creating_date }}
+                    </div>
+                    </div>
+            </a>
+            {% endfor %}
+
+
+</div>
+
 {% endblock %}

@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %} Mettre à jour - {{ first_name }} {% endblock %}
 
 {% block content %}
-    <p style="color:red"> {{ error_msg }} </p>
+<div class="col-10 justify-content-center " >
+        <div style="border:none;box-shadow:1px 1px 3px" class="mt-3">
+            <div class="row justify-content-center">
+                <img src="{% static 'images/profile.png' %}" class="rounded-circle mt-5" style="width:150px;height:150px">
+
+            </div>
+
+            <div class="row mt-3 justify-content-center">
+                <p style="color:red"> {{ error_msg }} </p>
     <form method="POST" action="{% url 'profile' %}">
         {% csrf_token %}
         <label for="first_name">
@@ -45,8 +53,14 @@
         </label>
             <input type="email" name="mail" value="{{ user_mail }}">
         <br>
+        <br>
+        <br>
 
-        <input type="submit" value="Ok">
+        <input type="submit" value="Ok" class="btn-primary mb-4 ml-5" style="width:100px">
     </form>
+
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

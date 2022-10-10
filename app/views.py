@@ -124,6 +124,7 @@ def profile(request):
             elif 'logout' in request.GET:
                 del request.session['id']
                 return redirect('authentification')
+
             else:
                 return render(request, 'tab/profile.html', locals())
 
@@ -356,13 +357,19 @@ def check(request, arg):
 def remove(request, arg):
     msg = 'Erreur'
     if request.GET:
-        if 'client' in request.GET and 'company' in request.GET:
+        if 'client' in request.GET:
             client = Client.objects.get(id=request.GET['client'])
             client.delete()
             msg = 'Client supprimé avec succès'
-    return HttpResponse("""
-        <p> client suprimé avec succés </p><br>
-        <a href="http://localhost:8000/check/?clients={}">
-        <input type="button" value="Mes clients">
-    </a>
-    """.format(request.GET['company']))
+            return HttpResponse("""
+                    <p> client suprimé avec succés </p><br>
+                    <a href="http://localhost:8000/check/?clients={}">
+                    <input type="button" value="Mes clients">
+                </a>
+                """.format(request.GET['company']))
+
+        if 'company' in request.GET:
+            company = Company.objects.get(id=request.GET['client'])
+            company.delete()
+            return redirect('http://localhost:8000/company')
+
