@@ -31,9 +31,12 @@ urlpatterns = [
     re_path(r'^home/$', app.views.home, name='home'),
     re_path(r'^profile/$', app.views.profile, name='profile'),
     re_path(r'^company/', app.views.my_company, name='my_company'),
+
+    # creation
     re_path(r'^create/company', app.views.create_company, name='create_company'),
+    re_path(r'^create/client', app.views.create_client, name='create_client'),
+    re_path(r'^create/invoice', app.views.create_invoice, name='create_invoice'),
 
     # check
     re_path(r'check/(?P<arg>)$', app.views.check, name='check'),
-    re_path(r'image/$', app.views.image, name='image'),
 ]

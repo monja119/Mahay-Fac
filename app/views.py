@@ -3,7 +3,7 @@ from app.models import User, Company
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import request
-from app.forms import NewUserForm, Authentificaton, CreateCompany
+from app.forms import NewUserForm, NewClientForm, Authentificaton, CreateCompany
 from django.contrib.auth.hashers import make_password, check_password
 
 
@@ -225,6 +225,19 @@ def create_company(request):
         return redirect(auth)
 
 
+def create_invoice(request):
+    return render(request, 'creation/invoice.html', locals())
+
+def create_client(request):
+    company = ''
+    form = NewClientForm(request.GET)
+    if form.is_valid():
+        return HttpResponse('validé')
+
+    else:
+        form = NewClientForm()
+        return render(request, 'creation/client.html', locals())
+
 def check(request, arg):
     url = request.get_full_path()
     arg = url.split('?')[1]
@@ -235,7 +248,3 @@ def check(request, arg):
         if 'company' in request.GET:
             data = eval('{}'.format(str(view).capitalize())).objects.get(id=request.GET['company'])
             return render(request, 'check/company.html', locals())
-
-
-def image(request):
-    return render(request, 'test.html', locals())

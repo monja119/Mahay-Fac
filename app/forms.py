@@ -20,6 +20,15 @@ class NewUserForm(forms.Form):
     repeate = forms.CharField(max_length=50)
 
 
+class NewClientForm(forms.Form):
+    full_name = forms.CharField(max_length=50)
+    gender = forms.ChoiceField(choices=[('male', 'male'), ('female', 'female')], widget=forms.RadioSelect)
+
+    company = forms.CharField(max_length=50)
+
+    mail = forms.EmailField(max_length=50)
+
+
 class Authentificaton(forms.Form):
     Email = forms.EmailField(max_length=50)
     Password = forms.CharField(widget=forms.PasswordInput, required=True)
@@ -40,3 +49,9 @@ class CreateCompany(forms.Form):
     siteweb = forms.CharField(max_length=50, required=False)
     nombre_de_salaries = forms.IntegerField(required=False)
 
+
+class CreateInvoice(forms.Form):
+    date = forms.DateField(input_formats=None)
+
+    # to
+    destinataire = forms.CharField(max_length=80)

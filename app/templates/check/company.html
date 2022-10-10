@@ -17,10 +17,20 @@
     <b>nombre des employés</b> : {{ data.salary_number}} <br>
 </br>
 
+    <a href="http://localhost:8000/check/?invoice={{ data.id }}">
+        <input type="button" value="Mes factures">
+    </a>
+
+    <a href="http://localhost:8000/create/client">
+        <input type="button" value="Ajouter un client">
+    </a>
+
+    <a href="http://localhost:8000/create/invoice?company={{ data.id }}">
+        <input type="button" value="Elaborer une facture">
+    </a>
+
     <a href="http://localhost:8000/company/?update={{ data.id}}">
-
         <input type="button" value="Mettre à jour">
-
     </a>
 
     {% endblock %}
