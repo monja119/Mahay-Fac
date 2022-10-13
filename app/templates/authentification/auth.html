@@ -1,11 +1,30 @@
-<h1> S'identifier</h1>
-
-<p>{{ msg }} </p>
-
-<form action="{% url 'authentification' %}" method="POST">
-    {% csrf_token %}
-    {{ auth.as_p }}
-    <input type="submit" value="OK">
-
-    <a href="{% url 'register' %}"><input type="button" value="Crér un compte"></a>
-</form>
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title> Titre </title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="text-center col col-lg-7 col-md-9 col-11 bg-primary p-2 pb-5 pt-5 mt-5 rounded">
+                    <h1> S'identifier</h1>
+                    <p>{{ msg }} </p>
+                    <form action="{% url 'authentification' %}" method="POST">
+                        {% csrf_token %}
+                        {{ auth.email }}
+                        <br>
+                        <br>
+                        {{ auth.password }}
+                        <br>
+                        <br>
+                        <input type="submit" value="OK" class="btn btn-secondary">
+                        <a href="{% url 'register' %}"><input type="button" value="Crér un compte" class="btn btn-light"></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

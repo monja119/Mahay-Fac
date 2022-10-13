@@ -54,4 +54,6 @@ class Invoice(models.Model):
     quantity = models.CharField(max_length=100)
     unite_price = models.CharField(max_length=50)
     tax = models.IntegerField()
-
+    date = models.CharField(max_length=12)
+    number = models.IntegerField(default=1)
+    unity = models.CharField(max_length=10)

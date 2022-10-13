@@ -1,0 +1,30 @@
+body {
+    background-color: white;
+
+
+}
+
+
+#invoice_sheet{
+    border : 1px solid black;
+    border-radius : 2%;
+    width:800px;
+    padding : 1%;
+    margin: auto;
+}
+
+.invoice_item{
+    background-color:gray;
+    border:1px solid black;
+}
+
+.invoice_value{
+    border: 1px solid black;
+    border-collapse : collapse;
+}
+
+.create_invoice_input{
+    border:none;
+    width:97%;
+    height:20px;
+}

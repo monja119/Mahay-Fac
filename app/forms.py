@@ -30,8 +30,19 @@ class NewClientForm(forms.Form):
 
 
 class Authentificaton(forms.Form):
-    Email = forms.EmailField(max_length=50)
-    Password = forms.CharField(widget=forms.PasswordInput, required=True)
+    email = forms.EmailField(max_length=50,
+                             widget=forms.TextInput(attrs={
+                                 'placeholder': 'Email',
+                                 'class': 'col-8 rounded'
+                             }),
+                             required=True)
+
+    password = forms.CharField(label="Mot De Passe",
+                               widget=forms.PasswordInput(attrs={
+                                   'placeholder': 'Mot De Passe',
+                                   'class': 'col-8 rounded'
+                               }),
+                               required=True)
 
 
 class CreateCompany(forms.Form):

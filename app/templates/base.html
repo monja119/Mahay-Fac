@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html>
     <head>
         <title>
@@ -7,6 +9,8 @@
             {% endblock %}
 
         </title>
+
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
 
     <body>
@@ -25,11 +29,7 @@
                             My Company
                         </a>
                     </h4>
-                <li>
-                    <h4>
-                        Facturation
-                    </h4>
-                </li>
+
             </ul>
         </header>
         {% block content %}

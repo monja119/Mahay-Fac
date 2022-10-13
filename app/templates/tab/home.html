@@ -1,12 +1,43 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+{% load static %}
 
-{% block title %} Acceuil {% endblock %}
+<html>
+    <head>
+        <title>
+            Titre
+        </title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    </head>
 
-{% block content %}
+    <body>
+        <div class="container">
+            <div class="row justify-content-center mt-5">
+                <h1>
+                    Bienvenue !
+                </h1>
+            </div>
+            <div class="row justify-content-center" style="margin-top:15%" >
 
-    <h1>
-        Wellcome !
-    </h1>
-    {{ msg }}
+                <br>
+                <ul style="list-style:none;text-align: left;" >
+                    <li style="display: inline-block">
+                        <h4>
+                            <a href="{% url 'profile' %}">
+                                <input type="button" value="Moi" class="btn btn-primary" style="width:135px">
+                            </a>
+                        </h4>
+                    </li>
+                    <li style="display: inline-block"  class="col-1"></li>
+                    <li style="display: inline-block">
+                        <h4>
+                            <a href="{% url 'my_company' %}">
+                                <input type="button" value="Ma Compagnie" class="btn btn-primary">
+                            </a>
+                        </h4>
 
-{% endblock %}
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

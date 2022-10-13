@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.http import request
 from app.forms import NewUserForm, NewClientForm, Authentificaton, CreateCompany
 from django.contrib.auth.hashers import make_password, check_password
+import datetime
 
 
 # forms view
@@ -59,8 +60,8 @@ def auth(request):
         msg = ''
 
         # authentification value
-        mail = auth.cleaned_data['Email']
-        password = auth.cleaned_data['Password']
+        mail = auth.cleaned_data['email']
+        password = auth.cleaned_data['password']
         try:
             # mail exists ?
             user = User.objects.get(mail=mail)
@@ -232,10 +233,17 @@ def create_invoice(request):
         invoice = Invoice()
         company_id = request.POST['company_id']
 
+        # incrementing invoice number for one client
+        try:
+            invoice_number = Invoice.objects.get(company=company_id, destination=request.POST['destination'])
+            invoice.number += 1
+        except Invoice.DoesNotExist:
+            invoice.number = 1
         invoice.destination = request.POST['destination']
         invoice.field_number = int(request.POST['number'])
         invoice.company = company_id
-
+        invoice.date = datetime.date.today()
+        invoice.unity = str(request.POST['unity']).capitalize()
         # numerous field
         for n in range(1, invoice.field_number + 1):
             if n == 1:
@@ -247,9 +255,9 @@ def create_invoice(request):
                 invoice.quantity += ', {}'.format(request.POST['quantity{}'.format(n)])
                 invoice.unite_price += ', {}'.format(request.POST['unitePrice{}'.format(n)])
 
-        tax = int(request.POST['tax'])
-
-        return HttpResponse(invoice.item)
+        invoice.tax = int(request.POST['tax'])
+        invoice.save()
+        return redirect('http://localhost:8000/check/?invoice={}'.format(invoice.id))
     else:
         return render(request, 'creation/invoice.html', locals())
 
@@ -312,6 +320,37 @@ def check(request, arg):
             client = Client.objects.get(id=request.GET['client'])
             company = Company.objects.get(id=client.company_id)
             return render(request, 'check/client.html', locals())
+
+        if 'invoices' in request.GET:
+            company = Company.objects.get(id=int(request.GET['invoices']))
+            invoices = Invoice.objects.filter(company=int(company.id))
+            return render(request, 'check/invoices.html', locals())
+
+        if 'invoice' in request.GET:
+            invoice = Invoice.objects.get(id=int(request.GET['invoice']))
+            company = Company.objects.get(id=int(invoice.company))
+
+            items_value = []
+            invoice_item = invoice.item.split(', ')
+            invoice_quatity = invoice.quantity.split(', ')
+            invoice_unite_price = invoice.unite_price.split(', ')
+            invoice_total = 0
+            for i in range(int(invoice.field_number)):
+                sub_total = int(invoice_quatity[i]) * int(invoice_unite_price[i])
+                invoice_total += sub_total
+                field = """
+                    {},{},{} {},{} {}
+                """.format(invoice_item[i],
+                           invoice_quatity[i],
+                           invoice_unite_price[i],
+                           invoice.unity,
+                           sub_total,
+                           invoice.unity)
+                items_value.append(field.split(','))
+
+            total = int(invoice_total - ((invoice_total * invoice.tax) / 100))
+
+            return render(request, 'check/invoice.html', locals())
 
 
 def remove(request, arg):

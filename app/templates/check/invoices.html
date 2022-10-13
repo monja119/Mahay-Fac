@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ company.name }} - Factures{% endblock %}
+
+{% block content %}
+<h1> {{ company.name }} </h1>
+
+    <ul>
+        {% for invoice in invoices %}
+            <a href="http://localhost:8000/check/?invoice={{ invoice.id }}">
+                <li style="color:black"> {{ invoice.destination}} </li>
+            </a>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

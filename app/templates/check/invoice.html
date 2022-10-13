@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ company.name }} - Factures{% endblock %}
+
+{% block content %}
+
+
+<table id="invoice_sheet">
+    <caption>
+        <h1>
+            Facture de {{ invoice.destination }}
+        </h1>
+    </caption>
+
+    {% comment%} HEAD {% endcomment %}
+    <tr>
+        <td>
+            <h3>
+                {{ company.name }}
+            </h3>
+            <p>
+                {{ company.number }}
+                <br>
+                {{ company.address }}
+                <br>
+                {{ company.mail }}
+                <br>
+                {{ company.tel }}
+
+            </p>
+        </td>
+        <td>
+        </td>
+
+        <td>
+            <p>
+                   Date : {{ invoice.date }}
+                <br>
+                Facture n° : {{ invoice.number }}
+            </p>
+            <br>
+            <p>
+                à : {{ invoice.destination }}
+            </p>
+        </td>
+    </tr>
+    <tr>
+    </tr>
+
+    {% comment%} ITEMS {% endcomment %}
+    <tr>
+        <td class="invoice_item">
+            Objets
+        </td>
+        <td class="invoice_item">
+            Quantités
+        </td>
+        <td class="invoice_item">
+            Prix Unitaire
+        </td>
+        <td class="invoice_item">
+            Total
+        </td>
+    </tr>
+
+
+    {% comment%} VALUES {% endcomment %}
+    {% for item in items_value %}
+        <tr>
+            {% for value in item %}
+
+            <td class="invoice_value">
+                {{ value }}
+            </td>
+
+            {% endfor %}
+        </tr>
+    {% endfor %}
+
+
+
+    {% comment%} FOOT {% endcomment %}
+    <tr>
+    <td></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+        </td>
+        <td>
+            <b>Sous Total</b>
+        </td>
+        <td>
+            {{ invoice_total }} {{ invoice.unity }}
+        </td>
+    </tr>
+    <tr>
+
+        <td colspan="2">
+        </td>
+        <td>
+            <b>Tax</b>
+        </td>
+        <td>
+            {{ invoice.tax }}%
+        </td>
+
+    </tr>
+
+    <tr>
+
+        <td colspan="2">
+        </td>
+        <td>
+            <b>Total</b>
+        </td>
+        <td>
+            {{ total }} {{ invoice.unity }}
+        </td>
+
+    </tr>
+</table>
+
+{% endblock %}

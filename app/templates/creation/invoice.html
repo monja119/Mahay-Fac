@@ -3,44 +3,89 @@
 {% block title %} Création de facture {% endblock %}
 
 {% block content %}
-<h1 xmlns="http://www.w3.org/1999/html">
+    <h1>
         Création de facture
     </h1>
 
-    <form method="POST" action="{% url 'create_invoice' %}">
-        {% csrf_token %}
-        <input type="number" name="number" id="number" hidden>
-        <input type="number" name="company_id" value="{{ company_id }}" hidden>
-        <section>
-            <label for="destination"> Destinataire :</label>
-            <input type="text" name="destination">
-            <br>
-            <br>
-        </section>
-        <section id="section">
-            <label for="item1"> Objet :</label>
-            <input type="text" name="item1">
-            <br>
-            <label for="quantity1"> Quantité :</label>
-            <input type="number" name="quantity1">
-            <br>
-            <label for="unitePrice1"> Prix unitaire :</label>
-            <input type="number" name="unitePrice1">
-            <br>
-        </section>
-        <input type="button" value="Ajouter" onclick="add()">
-        <br>
-        <br>
-        <section>
-            <label for="tax"> Tax (%) :</label>
-            <input type="number" name="tax">
-            <br>
-        </section>
+<form method="POST" action="{% url 'create_invoice' %}">
 
-        <input type="submit" value="OK">
+    {% csrf_token %}
+    <input type="number" name="number" id="number" hidden>
+    <input type="number" name="company_id" value="{{ company_id }}" hidden>
+
+    <table id="invoice_sheet" style="border:none">
+        <caption>
+            <section>
+                <input type="text" name="destination" placeholder="Destinataire ..." required>
+                <br>
+                <br>
+                <input type="text" name="unity" placeholder="Unité" required>
+            </section>
+        </caption>
+
+
+        {% comment%} ITEMS {% endcomment %}
+        <tr>
+            <td class="invoice_item" style="text-align:center">
+                Objets
+            </td>
+            <td class="invoice_item" style="text-align:center">
+                Quantité
+            </td>
+            <td class="invoice_item" style="text-align:center">
+                Prix unitaire
+            </td>
+        </tr>
+
+        <tr id="value">
+            <td class="invoice_item">
+                <input type="text" name="item1" class="create_invoice_input" required>
+            </td>
+            <td class="invoice_item">
+                <input type="number" name="quantity1" class="create_invoice_input" required>
+            </td>
+            <td class="invoice_item">
+                <input type="number" name="unitePrice1" class="create_invoice_input" required>
+            </td>
+        </tr>
+        <tr id="tr_none">
+        </tr>
+    </table>
+
+    <section style="text-align:center">
+        <input type="button" value="Ajouter" onclick="add()">
+            <br>
+        <input type="number" name="tax" placeholder="Tax (%)" required>
+            <br>
+        <input type="submit" value="OK" style="margin:auto">
+    </section>
+
 
     </form>
 
-<script src="{% static 'css/create_invoice.js'%}">
+<script>
+
+    var number = document.getElementById('number')
+    var table = document.getElementById('invoice_sheet');
+    var count = 1
+
+    function add(){
+        count += 1;
+        number.value = count
+        var field = `
+             <tr>
+            <td class="invoice_item">
+                <input type="text" name="item`+count+`" class="create_invoice_input" required>
+            </td>
+            <td class="invoice_item">
+                <input type="number" name="quantity`+count+`" class="create_invoice_input" required>
+            </td>
+            <td class="invoice_item">
+                <input type="number" name="unitePrice`+count+`" class="create_invoice_input" required>
+            </td>
+            </tr>`;
+        table.innerHTML += field;
+
+    }
 </script>
 {% endblock %}
