@@ -10,33 +10,57 @@
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     </head>
 
-    <body class="bg-secondary" >
+    <body style="background-image: url({% static 'images/background/home.png' %});
+                background-size: cover;background-repeat:no-repeat;">
         <div class="container">
-            <div class="row justify-content-center mt-5">
-                <h1>
-                    Mahay Fac
-                </h1>
+            <div class="row mt-5">
+                    <div class="col-5">
+                    </div>
+                    <div class="col-7">
+                        <a href="{% url 'authentification' %}" style="float:right" class="ml-3">
+                            <h4 class="text-primary">
+                                A PROPOS
+                            </h4>
+                        </a>
+                        <a href="{% url 'authentification' %}" style="float:right;" >
+                            <h4 class="text-primary">
+                                CONTACT
+                            </h4>
+                        </a>
+
+                    </div>
             </div>
-            <div class="row justify-content-center" style="margin-top:15%" >
-
-                <br>
-                <ul style="list-style:none;text-align: left;" >
-                    <li style="display: inline-block">
-                        <h4>
-                            <a href="{% url 'profile' %}">
-                                <input type="button" value="Moi" class="btn btn-primary" style="width:135px">
-                            </a>
-                        </h4>
-                    </li>
-                    <li style="display: inline-block"  class="col-1"></li>
-                    <li style="display: inline-block">
-                        <h4>
-                            <a href="{% url 'my_company' %}">
-                                <input type="button" value="Ma Compagnie" class="btn btn-primary">
-                            </a>
-                        </h4>
-
-                </ul>
+            <div class="row justify-content-center mt-5" >
+                <div class="col-11">
+                <p style="font-family:verdana;font-size:24px;color:white">
+                    gagner en productivité avec
+                    <br>
+                    <b style="margin-left:5%;font-size:70px">
+                        Mahay Fac
+                    </b>
+                    <br>
+                    La facturation en ligne : Simple - efficace.
+                </p>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+                    <br>
+                    <ul style="list-style:none;text-align: left;" >
+                        <li style="display: inline-block">
+                            <h4>
+                                <a href="{% url 'authentification' %}">
+                                    <input type="button" value="Commencer" class="btn btn-primary" style="width:135px">
+                                </a>
+                            </h4>
+                        </li>
+                        <li style="display: inline-block"  class="col-1"></li>
+                        <li style="display: inline-block">
+                            <h4>
+                                <a href="{% url 'register' %}">
+                                    <input type="button" value="S'inscrire" class="btn btn-secondary">
+                                </a>
+                            </h4>
+                    </ul>
             </div>
         </div>
     </body>
