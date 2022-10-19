@@ -5,11 +5,12 @@ gender_choice = [
     ('female', 'Female'),
 ]
 
+
 class User(models.Model):
     # about
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    picture = models.FileField(upload_to='images/')
+    picture = models.FileField(upload_to='static/media/images/user/')
     gender = models.CharField(max_length=6, choices=gender_choice, default='male')
     # company
     company = models.CharField(max_length=50)
@@ -32,11 +33,13 @@ class Client(models.Model):
     mail = models.EmailField(max_length=50)
     company_id = models.IntegerField()
 
+
 class Company(models.Model):
     # about
     name = models.CharField(max_length=50)
+    picture = models.FileField(upload_to='static/media/images/company/')
     status = models.CharField(max_length=50)
-    number = models.CharField(max_length=6)
+    number = models.CharField(max_length=15)
     sector = models.CharField(max_length=50)
     creating_date = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
@@ -48,7 +51,7 @@ class Company(models.Model):
     salary_number = models.IntegerField(max_length=15)
 
     #
-    author = models.IntegerField()
+    author = models.IntegerField(null=True)
 
 
 class Invoice(models.Model):

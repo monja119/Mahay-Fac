@@ -121,8 +121,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-MEDIA_URL = 'app/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'app/media/')
+MEDIA_URL = 'app/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'app/')
 
 
 # Static files (CSS, JavaScript, Images)

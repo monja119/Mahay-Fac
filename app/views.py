@@ -1,5 +1,5 @@
 import os
-
+from django.forms import Textarea, formset_factory
 from app.models import User, Company, Client, Invoice
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -54,12 +54,13 @@ def new_user(request):
                 user.mail = form.cleaned_data['mail']
 
                 # managing profile picture
-                path_to_picture = 'app/media/images'.format(picture)
+                path_to_picture = 'app/static/media/images/user'
                 file_full_name = str(picture)
                 file_name = file_full_name.split('.')[:-1]
                 file_type = file_full_name.split('.')[-1]
+                old_name = '{}/{}'.format(path_to_picture, picture)
                 new_name = '{}/{}.{}'.format(path_to_picture, user.mail, file_type)
-                os.rename('{}/{}'.format(path_to_picture, picture), new_name)
+                os.rename(old_name, new_name)
 
                 user.picture = new_name
                 user.password = make_password(password, None, 'default')
@@ -140,7 +141,9 @@ def profile(request):
         user_address = user.address
         user_tel = user.tel
         user_mail = user.mail
-        user_picture = str(user.picture)
+
+        # picture
+        user_picture = str(user.picture).split('/')[-1]
 
         # if wanted to modify
         if request.GET:
@@ -186,65 +189,76 @@ def profile(request):
 
 
 def my_company(request):
+    session_id = request.session['id']
+    companies = 'None'
+    # checking companies
     try:
-        session_id = request.session['id']
-        companies = 'None'
-        # checking companies
-        try:
-            if request.GET:
-                if 'update' in request.GET:
-                    id = request.GET['update']
-                    company = Company.objects.get(id=id)
-                    return render(request, 'tab/my_company_update.html', locals())
-            elif request.POST:
-                company = Company.objects.get(id=request.POST['id'])
-                company.name = request.POST['name']
-                company.status = request.POST['status']
-                company.number = request.POST['number']
-                company.sector = request.POST['sector']
-                company.creating_date = request.POST['creating_date']
-                company.address = request.POST['address']
-                company.mail = request.POST['mail']
-                company.tel = request.POST['tel']
-                company.website = request.POST['website']
-                company.salary_number = request.POST['salary_number']
+        if request.GET:
+            if 'update' in request.GET:
+                id = request.GET['update']
+                company = Company.objects.get(id=id)
+                return render(request, 'tab/my_company_update.html', locals())
+        elif request.POST:
+            company = Company.objects.get(id=request.POST['id'])
+            company.name = request.POST['name']
+            company.status = request.POST['status']
+            company.number = request.POST['number']
+            company.sector = request.POST['sector']
+            company.creating_date = request.POST['creating_date']
+            company.address = request.POST['address']
+            company.mail = request.POST['mail']
+            company.tel = request.POST['tel']
+            company.website = request.POST['website']
+            company.salary_number = request.POST['salary_number']
+            company.save()
+            return redirect('http://localhost:8000/check/?company={}'.format(request.POST['id']))
 
-                company.save()
-                return redirect('http://localhost:8000/check/?company={}'.format(request.POST['id']))
-
-                company.save()
-                return redirect('ok')
-            else:
-                company = Company.objects.filter(author=session_id).order_by('id').reverse()
-                companies = company
-        except Company.DoesNotExist:
-            pass
-        return render(request, 'tab/my_company.html', locals())
-    except KeyError:
-        return redirect(auth)
+        else:
+            company = Company.objects.filter(author=session_id).order_by('id').reverse()
+            companies = company
+    except Company.DoesNotExist:
+        pass
+    return render(request, 'tab/my_company.html', locals())
 
 
 def create_company(request):
+    session_id = request.session['id']
+    form = CreateCompany(request.POST, request.FILES)
     try:
-        session_id = request.session['id']
-        form = CreateCompany(request.POST)
         if form.is_valid():
-            company = Company()
-            company.name = form.cleaned_data['nom']
-            company.status = form.cleaned_data['status_juridique']
-            company.number = form.cleaned_data['numero_SIRET_ou_SIREN_et_code_NAF']
-            company.sector = form.cleaned_data['secteur']
-            company.creating_date = form.cleaned_data['date_de_creation']
-            company.address = form.cleaned_data['adresse']
-            company.mail = form.cleaned_data['email']
-            company.tel = form.cleaned_data['tel']
-            company.website = form.cleaned_data['siteweb']
-            company.salary_number = form.cleaned_data['nombre_de_salaries']
+            picture = form.cleaned_data['picture']
+            content_type = picture.content_type
 
-            company.author = session_id
+            if 'image' not in content_type:
+                error_msg = 'Type d\'image non supporté '
+                return render(request, 'creation/company.html', locals())
+            else:
+                company = Company()
+                form.save()
+                company.name = form.cleaned_data['name']
+                company.status = form.cleaned_data['status']
+                company.number = form.cleaned_data['number']
+                company.sector = form.cleaned_data['sector']
+                company.creating_date = form.cleaned_data['creating_date']
+                company.address = form.cleaned_data['address']
+                company.mail = form.cleaned_data['mail']
+                company.tel = form.cleaned_data['tel']
+                company.website = form.cleaned_data['website']
+                company.salary_number = form.cleaned_data['salary_number']
 
-            company.save()
-            return redirect(my_company)
+                # managing profile picture
+                path_to_picture = 'app/static/media/images/company'
+                file_full_name = str(picture)
+                file_name = file_full_name.split('.')[:-1]
+                file_type = file_full_name.split('.')[-1]
+                old_name = '{}/{}'.format(path_to_picture, picture)
+                new_name = '{}/{}.{}'.format(path_to_picture, company.mail, file_type)
+                os.rename(old_name, new_name)
+
+                company.picture = new_name
+                company.author = session_id
+                company.save()
+                return redirect(my_company)
         else:
             form = CreateCompany()
             return render(request, 'creation/company.html', locals())
@@ -336,6 +350,7 @@ def check(request, arg):
     if request.method == 'GET':
         if 'company' in request.GET:
             data = eval('{}'.format(str(view).capitalize())).objects.get(id=request.GET['company'])
+            picture = str(data.picture).split('/')[-1]
             return render(request, 'check/company.html', locals())
 
         if 'clients' in request.GET:
@@ -381,7 +396,7 @@ def check(request, arg):
 
 
 def remove(request, arg):
-    msg = 'Erreur'
+    msg = ''
     if request.GET:
         if 'client' in request.GET:
             client = Client.objects.get(id=request.GET['client'])

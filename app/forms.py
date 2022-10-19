@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from app.models import User
+from app.models import User, Company
 
 
 class NewUserForm(ModelForm):
@@ -35,18 +35,11 @@ class Authentificaton(forms.Form):
                                required=True)
 
 
-class CreateCompany(forms.Form):
+class CreateCompany(ModelForm):
     # about
-    nom = forms.CharField(max_length=50)
-    status_juridique = forms.CharField(max_length=50)
-    numero_SIRET_ou_SIREN_et_code_NAF = forms.CharField(max_length=50)
-    secteur = forms.CharField(max_length=50)
-    date_de_creation = forms.CharField(max_length=50)
-    adresse = forms.CharField(max_length=50)
-    email = forms.EmailField(max_length=50)
-    tel = forms.IntegerField()
-
-    # not required
-    siteweb = forms.CharField(max_length=50, required=False)
-    nombre_de_salaries = forms.IntegerField(required=False)
-
+    class Meta:
+        model = Company
+        fields = [
+            'name', 'picture', 'status', 'number', 'sector', 'creating_date', 'address',
+            'mail', 'website', 'tel', 'salary_number'
+            ]

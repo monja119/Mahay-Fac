@@ -13,7 +13,8 @@
     </div>
 
 
-    <form method="post" action="{% url 'create_company' %}">
+    <form method="post" action="{% url 'create_company' %}" enctype="multipart/form-data">
+        <p style="color:red"> {{ error_msg }} </p>
         {% csrf_token %}
         {{ form.as_p }}
         <div class="row justify-content-center">
