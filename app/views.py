@@ -9,6 +9,12 @@ from django.contrib.auth.hashers import make_password, check_password
 import datetime
 
 
+
+def home(request):
+    text = 'Welcome'
+    return render(request, 'tab/home.html', locals())
+
+
 # forms view
 def new_user(request):
     form = NewUserForm(request.POST, request.FILES)
@@ -84,7 +90,6 @@ def auth(request):
     bolean = False
     if auth.is_valid():
         msg = ''
-
         # authentification value
         mail = auth.cleaned_data['email']
         password = auth.cleaned_data['password']
@@ -96,7 +101,7 @@ def auth(request):
             if check_password(password, user.password):
                 # valid
                 request.session['id'] = user.id
-                return redirect(home)
+                return redirect(profile)
             else:
                 msg = 'Wrong password'
                 return render(request, 'authentification/auth.html', locals())
@@ -111,17 +116,6 @@ def auth(request):
 
         return render(request, 'authentification/auth.html', locals())
 
-
-def home(request):
-    text = 'Welcome'
-
-    try:
-        session_id = request.session['id']
-        msg = 'ok'
-        return render(request, 'tab/home.html', locals())
-
-    except KeyError:
-        return redirect(auth)
 
 
 def profile(request):
