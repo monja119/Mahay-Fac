@@ -9,7 +9,6 @@ from django.contrib.auth.hashers import make_password, check_password
 import datetime
 
 
-
 def home(request):
     text = 'Welcome'
     return render(request, 'tab/home.html', locals())
@@ -86,36 +85,39 @@ def new_user(request):
 
 # authentifiaction
 def auth(request):
-    auth = Authentificaton(request.POST)
-    bolean = False
-    if auth.is_valid():
-        msg = ''
-        # authentification value
-        mail = auth.cleaned_data['email']
-        password = auth.cleaned_data['password']
-        try:
-            # mail exists ?
-            user = User.objects.get(mail=mail)
+    try:
+        session_id = request.session['id']
+        return redirect(profile)
+    except KeyError:
+        auth = Authentificaton(request.POST)
+        bolean = False
+        if auth.is_valid():
+            msg = ''
+            # authentification value
+            mail = auth.cleaned_data['email']
+            password = auth.cleaned_data['password']
+            try:
+                # mail exists ?
+                user = User.objects.get(mail=mail)
 
-            # password True ?
-            if check_password(password, user.password):
-                # valid
-                request.session['id'] = user.id
-                return redirect(profile)
-            else:
-                msg = 'Wrong password'
+                # password True ?
+                if check_password(password, user.password):
+                    # valid
+                    request.session['id'] = user.id
+                    return redirect(profile)
+                else:
+                    msg = 'Wrong password'
+                    return render(request, 'authentification/auth.html', locals())
+
+            except User.DoesNotExist:
+                msg = 'Identifiant inconnu'
+
                 return render(request, 'authentification/auth.html', locals())
 
-        except User.DoesNotExist:
-            msg = 'Identifiant inconnu'
+        else:
+            auth = Authentificaton()
 
             return render(request, 'authentification/auth.html', locals())
-
-    else:
-        auth = Authentificaton()
-
-        return render(request, 'authentification/auth.html', locals())
-
 
 
 def profile(request):
