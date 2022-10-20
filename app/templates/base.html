@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
-    <body style="background-image: url({% static 'images/background/home.png' %});
+    <body style="background-image: url({% static 'images/background/img3.jpg' %});
                 background-size: cover;background-repeat:no-repeat;">
         <div class="container-fluid">
 
@@ -33,7 +33,7 @@
                 </div>
 
             </div>
-            <div class="row" style="height:100%">
+            <div class="row" style="height:100%; color:white">
 
                 <div class="col-2 bg-primary" style="height:700px">
                     <a href="{% url 'profile' %}" style="text-decoration:none">
@@ -43,12 +43,12 @@
                     </a>
                     <a href="http://localhost:8000/profile/?update={{ session_id }}" style="text-decoration:none;color:black">
                         <p class="ml-3">
-                            ~ Mettre à jour
+                            | Mettre à jour
                         </p>
                     </a>
                     <a href="http://localhost:8000/profile/?logout={{ session_id }}" style="text-decoration:none;color:black">
                         <p class="ml-3">
-                            ~ Se Deconnecter
+                            | Se Deconnecter
                         </p>
                     </a>
                     <a href="{% url 'my_company' %}" style="text-decoration:none">
@@ -59,19 +59,18 @@
 
                     <a href="{% url 'my_company' %}" style="text-decoration:none;color:black">
                         <p class="ml-3">
-                            ~ Mes Compagnies
+                            | Mes Compagnies
                         </p>
                     </a>
 
                     <a href="{% url 'create_company' %}" style="text-decoration:none;color:black">
                         <p class="ml-3">
-                            ~ Créer
+                            | Créer
                         </p>
                     </a>
 
 
                 </div>
-
                 {% block content %}
                 {% endblock %}
             </div>

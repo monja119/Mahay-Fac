@@ -13,14 +13,36 @@
                     {{ first_name }} {{ last_name }}
                 </h3>
             </div>
-            <div class="row mt-3 justify-content-center">
-                <p>
-                    <b> COMPAGNIE</b> : {{ user_company }} <br>
-                    <b> FONCTION</b> : {{ user_function }} <br>
-                    <b> ADDRESSE</b> : {{ user_address }} <br>
-                    <b> TEL</b> :    {{ user_tel }} <br>
-                    <b> EMAIL</b> : {{ user_mail }} <br>
+            <div class="row mt-3 ml-3">
+
+                <div class="col-2">
+                    <p>
+                    <b> COMPAGNIE</b> <br>
+                    <b> FONCTION</b> <br>
+                    <b> ADDRESSE</b>  <br>
+                    <b> TEL</b> <br>
+                    <b> EMAIL</b>  <br>
                 </p>
+                </div>
+                <div class="col-1">
+                    <p>
+                        : <br>
+                    : <br>
+                    : <br>
+                    : <br>
+                    : <br>
+                </p>
+                </div>
+                <div class="col-7">
+                    <p>
+                         {{ user_company }} <br>
+                        {{ user_function }} <br>
+                         {{ user_address }} <br>
+                        {{ user_tel }} <br>
+                        {{ user_mail }} <br>
+                    </p>
+                </div>
+
             </div>
         </div>
     </div>

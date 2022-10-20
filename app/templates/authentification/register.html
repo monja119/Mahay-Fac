@@ -9,9 +9,10 @@
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
 
-    <body>
-        <div class="container-fluid">
-            <div class="row justify-content-center">
+    <body style="background-image: url({% static 'images/background/home.png' %});
+                background-size: cover;background-repeat:no-repeat;">
+        <div class="container-fluid mb-5 mt-5" style="color:white">
+            <div class="row justify-content-center ">
                 <h1> Nouvelle idéntitté</h1>
             </div>
 
@@ -20,14 +21,47 @@
                  <h4>{{ msg }} </h4>
             </div>
 
-
-            <form action="{% url 'register' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div class="row justify-content-center">
-                    <input type="submit" value="OK" class="btn-primary">
+            <div class="row ml-5">
+                <div class="col-2">
+                    <p style="float:right">
+                        <b> Nom</b> <br><br>
+                        <b> Prénom</b> <br><br>
+                        <b> Photo</b>  <br><br>
+                        <b> Genre</b> <br><br>
+                        <b> Compagnie</b>  <br><br>
+                        <b> Fonction</b>  <br><br>
+                        <b> Addresse</b>  <br><br>
+                        <b> Télephone</b>  <br><br>
+                        <b> Email</b>  <br><br>
+                        <b> Mot De Passe</b>  <br><br>
+                        <b> Confirmer</b>  <br><br>
+                    </p>
                 </div>
-            </form>
+                <div class="col-1">
+                    <p>
+                        : <br><br>
+                        : <br><br>
+                        : <br><br>
+                        : <br><br>
+                        : <br><br>
+                        : <br><br>
+                        : <br><br>
+                        : <br><br>
+                        : <br><br>
+                        : <br><br>
+                        : <br><br>
+                    </p>
+                </div>
+                <div class="col-7">
+                    <form id="form_new_user" action="{% url 'register' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="row justify-content-center">
+                            <input type="submit" value="OK" class="btn-primary rounded" style="width:100px">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </body>
 

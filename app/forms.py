@@ -1,14 +1,23 @@
 from django.forms import ModelForm
 from django import forms
 from app.models import User, Company
-
+from django.forms import CharField
+from django import forms
 
 class NewUserForm(ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'picture', 'gender'
                   , 'company', 'function', 'address', 'tel', 'mail', 'password', 'repeate']
-
+        widgets = {
+            'company': forms.TextInput(attrs={
+                'class': 'mt-3',
+            })
+        }
+        labels = {
+            'first_name': '', 'last_name': '', 'picture': '', 'gender': '', 'company': '', 'function': '',
+            'address': '', 'tel': '', 'mail': '', 'password': '', 'repeate': ''
+        }
 
 class NewClientForm(forms.Form):
     full_name = forms.CharField(max_length=50)
