@@ -1,9 +1,9 @@
-import os
+import os, io
 from django.forms import Textarea, formset_factory
 from app.models import User, Company, Client, Invoice
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.http import request
+from django.http import HttpResponse, FileResponse
+from reportlab.pdfgen import canvas
 from app.forms import NewUserForm, NewClientForm, Authentificaton, CreateCompany
 from django.contrib.auth.hashers import make_password, check_password
 import datetime
@@ -409,3 +409,26 @@ def remove(request, arg):
             company = Company.objects.get(id=request.GET['client'])
             company.delete()
             return redirect('http://localhost:8000/company')
+
+
+def search(request):
+    if request.method == 'GET':
+        query = request.GET['q']
+        return HttpResponse(query)
+    else:
+        return HttpResponse("Une erreur s'est produite !")
+
+def export(request, id):
+    if request.method == 'GET':
+        try:
+            invoice_id = request.GET.get('invoice')
+
+            try:
+                invoice = Invoice.objects.get(id=invoice_id)
+                return HttpResponse(invoice.destination)
+            except Invoice.DoesNotExist:
+                return HttpResponse('Désolé, facture introuvable')
+        except TypeError:
+            return HttpResponse('Une Erreur s\'est reproduite')
+    else:
+        return HttpResponse("not get")

@@ -42,4 +42,8 @@ urlpatterns = [
 
     # remove
     re_path(r'remove/(?P<arg>)$', app.views.remove, name='remove'),
+
+    re_path(r'search/', app.views.search, name='search'),
+
+    re_path(r'^export/(?P<id>)', app.views.export, name='export'),
 ]
