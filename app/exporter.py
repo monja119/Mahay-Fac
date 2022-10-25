@@ -1,6 +1,11 @@
+# table
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
+# images
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen.canvas import Canvas
+ #models
 from app.models import Invoice, Company
 
 
@@ -32,9 +37,13 @@ def exporter(invoice_id):
 
     # ____________BUILDING PDF FILE___________
     doc = SimpleDocTemplate(name, pagesize=letter)
-
     # container for the 'Flowable' objects
     elements = []
+
+    # writing company logo
+    path_image = str(company.picture)
+    elements.append(Image(path_image, 50, 50, hAlign='LEFT'))
+
     data = [
 
         # head of the table
@@ -52,11 +61,11 @@ def exporter(invoice_id):
         data.append(items_value[i])
 
     # foot of the table
-    data.append(['', '', 'Sous Total', '{} {}'.format(invoice_total, invoice.unity)],)
-    data.append(['', '', 'Tax', '{} %'.format(invoice.tax)],)
-    data.append(['', '', 'Total', '{} {}'.format(total, invoice.unity)],)
+    data.append(['', '', 'Sous Total', '{} {}'.format(invoice_total, invoice.unity)], )
+    data.append(['', '', 'Tax', '{} %'.format(invoice.tax)], )
+    data.append(['', '', 'Total', '{} {}'.format(total, invoice.unity)], )
 
-    table = Table(data, 130, 20)
+    table = Table(data, 120, 20)
     table.setStyle(
         TableStyle(
             [
@@ -72,7 +81,7 @@ def exporter(invoice_id):
 
     elements.append(table)
 
-    # writting doc
+    # building doc
     doc.build(elements)
 
     return name
