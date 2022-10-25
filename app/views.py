@@ -1,9 +1,8 @@
-import os, io
-from django.forms import Textarea, formset_factory
+import os
+from app.exporter import exporter
 from app.models import User, Company, Client, Invoice
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, FileResponse
-from reportlab.pdfgen import canvas
 from app.forms import NewUserForm, NewClientForm, Authentificaton, CreateCompany
 from django.contrib.auth.hashers import make_password, check_password
 import datetime
@@ -344,52 +343,54 @@ def check(request, arg):
     view = arg.split('=')[0]
 
     if request.method == 'GET':
-        if 'company' in request.GET:
-            data = eval('{}'.format(str(view).capitalize())).objects.get(id=request.GET['company'])
-            picture = str(data.picture).split('/')[-1]
-            return render(request, 'check/company.html', locals())
+        try:
+            if 'company' in request.GET:
+                data = eval('{}'.format(str(view).capitalize())).objects.get(id=request.GET['company'])
+                picture = str(data.picture).split('/')[-1]
+                return render(request, 'check/company.html', locals())
 
-        if 'clients' in request.GET:
-            company = Company.objects.get(id=request.GET['clients'])
-            clients = Client.objects.filter(company_id=company.id).order_by('full_name')
-            return render(request, 'check/clients.html', locals())
+            if 'clients' in request.GET:
+                company = Company.objects.get(id=request.GET['clients'])
+                clients = Client.objects.filter(company_id=company.id).order_by('full_name')
+                return render(request, 'check/clients.html', locals())
 
-        if 'client' in request.GET:
-            client = Client.objects.get(id=request.GET['client'])
-            company = Company.objects.get(id=client.company_id)
-            return render(request, 'check/client.html', locals())
+            if 'client' in request.GET:
+                client = Client.objects.get(id=request.GET['client'])
+                company = Company.objects.get(id=client.company_id)
+                return render(request, 'check/client.html', locals())
 
-        if 'invoices' in request.GET:
-            company = Company.objects.get(id=int(request.GET['invoices']))
-            invoices = Invoice.objects.filter(company=int(company.id))
-            return render(request, 'check/invoices.html', locals())
+            if 'invoices' in request.GET:
+                company = Company.objects.get(id=int(request.GET['invoices']))
+                invoices = Invoice.objects.filter(company=int(company.id))
+                return render(request, 'check/invoices.html', locals())
 
-        if 'invoice' in request.GET:
-            invoice = Invoice.objects.get(id=int(request.GET['invoice']))
-            company = Company.objects.get(id=int(invoice.company))
+            if 'invoice' in request.GET:
+                invoice = Invoice.objects.get(id=int(request.GET['invoice']))
+                company = Company.objects.get(id=int(invoice.company))
 
-            items_value = []
-            invoice_item = invoice.item.split(', ')
-            invoice_quatity = invoice.quantity.split(', ')
-            invoice_unite_price = invoice.unite_price.split(', ')
-            invoice_total = 0
-            for i in range(int(invoice.field_number)):
-                sub_total = int(invoice_quatity[i]) * int(invoice_unite_price[i])
-                invoice_total += sub_total
-                field = """
-                    {},{},{} {},{} {}
-                """.format(invoice_item[i],
-                           invoice_quatity[i],
-                           invoice_unite_price[i],
-                           invoice.unity,
-                           sub_total,
-                           invoice.unity)
-                items_value.append(field.split(','))
+                items_value = []
+                invoice_item = invoice.item.split(', ')
+                invoice_quatity = invoice.quantity.split(', ')
+                invoice_unite_price = invoice.unite_price.split(', ')
+                invoice_total = 0
+                for i in range(int(invoice.field_number)):
+                    sub_total = int(invoice_quatity[i]) * int(invoice_unite_price[i])
+                    invoice_total += sub_total
+                    field = """
+                        {},{},{} {},{} {}
+                    """.format(invoice_item[i],
+                               invoice_quatity[i],
+                               invoice_unite_price[i],
+                               invoice.unity,
+                               sub_total,
+                               invoice.unity)
+                    items_value.append(field.split(','))
 
-            total = int(invoice_total - ((invoice_total * invoice.tax) / 100))
+                total = int(invoice_total - ((invoice_total * invoice.tax) / 100))
 
-            return render(request, 'check/invoice.html', locals())
-
+                return render(request, 'check/invoice.html', locals())
+        except:
+                return HttpResponse('Désolé, une erreur s\'est reproduite')
 
 def remove(request, arg):
     msg = ''
@@ -418,17 +419,17 @@ def search(request):
     else:
         return HttpResponse("Une erreur s'est produite !")
 
+
 def export(request, id):
     if request.method == 'GET':
         try:
             invoice_id = request.GET.get('invoice')
+            pdf = exporter(invoice_id)
+            # downloading pdf file
+            return FileResponse(open(pdf, 'rb'), as_attachment=True)
 
-            try:
-                invoice = Invoice.objects.get(id=invoice_id)
-                return HttpResponse(invoice.destination)
-            except Invoice.DoesNotExist:
-                return HttpResponse('Désolé, facture introuvable')
-        except TypeError:
-            return HttpResponse('Une Erreur s\'est reproduite')
+        except Invoice.DoesNotExist:
+            return 'Désole, Facture non identifiable'
+
     else:
-        return HttpResponse("not get")
+        return HttpResponse("Une Erreur s'est reproduite ")

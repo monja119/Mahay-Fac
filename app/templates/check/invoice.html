@@ -10,11 +10,11 @@
             Facture de {{ invoice.destination }}
         </h1>
     </div>
-    <div class="row">
-        <table id="invoice_sheet">
+    <table id="invoice_sheet" class="rounded">
+        <div class="row" >
             {% comment%} HEAD {% endcomment %}
             <tr>
-                <td>
+                <td class="pl-3 pt-2">
                     <h3>
                         {{ company.name }}
                     </h3>
@@ -48,8 +48,8 @@
             </tr>
 
             {% comment%} ITEMS {% endcomment %}
-            <tr>
-                <td class="invoice_item">
+            <tr >
+                <td class="invoice_item" >
                     Objets
                 </td>
                 <td class="invoice_item">
@@ -118,8 +118,15 @@
                 </td>
 
             </tr>
-        </table>
-    </div>
+
+            <tr>
+                <td>
+                    .
+                </td>
+            </tr>
+
+            </div>
+         </table>
     <div class="row mt-5 justify-content-center">
         <a href="http://localhost:8000/export/?invoice={{ invoice.id }}">
             <input type="button" value="Exporter PDF" class="btn-primary rounded" style="width:150px">

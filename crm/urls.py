@@ -39,6 +39,7 @@ urlpatterns = [
 
     # check
     re_path(r'check/(?P<arg>)$', app.views.check, name='check'),
+    re_path(r'check/', app.views.home, name='check'),
 
     # remove
     re_path(r'remove/(?P<arg>)$', app.views.remove, name='remove'),
