@@ -415,7 +415,8 @@ def remove(request, arg):
 def search(request):
     if request.method == 'GET':
         query = request.GET['q']
-        return HttpResponse(query)
+
+        return render(request, 'search.html', locals())
     else:
         return HttpResponse("Une erreur s'est produite !")
 
