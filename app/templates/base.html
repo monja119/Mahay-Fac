@@ -8,76 +8,67 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>
             {% block title %}
-
             {% endblock %}
 
         </title>
 
-            <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-            <link rel="stylesheet" href="{% static 'css/style.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
     </head>
     <body style="background-image: url({% static 'images/background/img3.jpg' %});
                 background-size: cover;background-repeat:no-repeat;">
+
         <div class="container-fluid">
+            <div class="row pb-3" style="background-color: rgba(0 ,0 ,220, 0.5);height:100px;">
 
-            <div class="row pt-3 bg-secondary ">
-                <div class="col-2 float-left">
-                    <h4>
-                        Mahay Fac
-                    </h4>
-                </div>
-                <div class="col-4">
-                </div>
-
-                <div class="d-flex align-items-end col-6 pb-3">
-                    <form method="GET" action="{% url 'search' %}" style="width:100%">
-                        <input type="text" name="q" placeholder="Rechercher" class="rounded" style="
-                        background-color:white;border:none;height:35px;width:71%;text-align:center
-                        ">
-                        <input type="submit" value="Rechercher" style="border:none;height:35px;width:19%;min-width:100px" class="ml-1 rounded">
+                <div class=" col-lg-7 col-md-12 col-sm-12 d-flex align-items-end mt-3 mb-2" style="min-width:400px;">
+                    <form method="GET" action="{% url 'search' %}" style="width:100%;margin:auto">
+                        <input type="text" name="q" placeholder="Rechercher" class="rounded" id="search_bar">
+                        <input type="submit" value="Rechercher"
+                               style="font-size:15px;border:none;height:35px;width:19%;min-width:100px" class="ml-1 rounded">
                     </form>
                 </div>
+                <div class="col-lg-5 col-md-12 col-sm-12 d-flex align-items-end mt-2" style="min-width:420px;text-align:center">
+                    <div id="content-profile" style="border:1px solid black;width:200px;margin:auto;"
+                         class="tab">
+                        <a href="{% url 'profile' %}">
+                            <h5 style="color:white;">
+                                MON PROFIL
+                                <img src="{% static 'images/list.png' %}" class="scroll_img" alt="compagnie">
+                            </h5>
+                        </a>
+                        <div id="sous-tab-profile" class="sous-tab" style="margin-left: -3%">
+                            <div class="point">
+                                .
+                            </div>
+                            <ul class="content-tab rounded ml-3" id="tab-content-profile">
+                                <a href="http://localhost:8000/profile/?update={{ session_id }}" style="text-decoration:none;color:black">
+                                   <li class="mt-2">
+                                          Mettre à jour
+
+                                    </li>
+                                </a>
+                                <a href="http://localhost:8000/profile/?logout={{ session_id }}" style="text-decoration:none;color:black">
+                                    <li>
+                                         Se Deconnecter
+
+                                    </li>
+                                </a>
+                            </ul>
+                        </div>
+
+                    </div>
+                        <a href="{% url 'my_company' %}" class="tab" style="text-decoration:none;margin-left:4%;width:200px;margin:auto">
+                            <h5 style="color:white;">
+                                MA COMPAGNIE
+                                <img src="{% static 'images/list.png' %}" class="scroll_img" alt="compagnie">
+                            </h5>
+                        </a>
+                </div>
+            </div>
 
             </div>
-            <div class="row" style="height:100%; color:white">
-
-                <div class="col-2 bg-primary" style="height:700px">
-                    <a href="{% url 'profile' %}" style="text-decoration:none">
-                        <div class="row pt-2" style="background-color:black;border-bottom:1px solid blue">
-                                <p style="color:white;">  MON PROFILE</p>
-                        </div>
-                    </a>
-                    <a href="http://localhost:8000/profile/?update={{ session_id }}" style="text-decoration:none;color:black">
-                        <p class="ml-3">
-                            | Mettre à jour
-                        </p>
-                    </a>
-                    <a href="http://localhost:8000/profile/?logout={{ session_id }}" style="text-decoration:none;color:black">
-                        <p class="ml-3">
-                            | Se Deconnecter
-                        </p>
-                    </a>
-                    <a href="{% url 'my_company' %}" style="text-decoration:none">
-                        <div class="row pt-2" style="background-color:black">
-                                <p style="color:white;">  MA COMPAGNIE</p>
-                        </div>
-                    </a>
-
-                    <a href="{% url 'my_company' %}" style="text-decoration:none;color:black">
-                        <p class="ml-3">
-                            | Mes Compagnies
-                        </p>
-                    </a>
-
-                    <a href="{% url 'create_company' %}" style="text-decoration:none;color:black">
-                        <p class="ml-3">
-                            | Créer
-                        </p>
-                    </a>
-
-
-                </div>
                 {% block content %}
                 {% endblock %}
             </div>

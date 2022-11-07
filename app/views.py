@@ -7,9 +7,13 @@ from app.forms import NewUserForm, NewClientForm, Authentificaton, CreateCompany
 from django.contrib.auth.hashers import make_password, check_password
 import datetime
 
+
 def home(request):
-    text = 'Welcome'
-    return render(request, 'tab/home.html', locals())
+    try:
+        session_id = request.session['id']
+        return redirect(profile)
+    except KeyError:
+        return render(request, 'tab/home.html', locals())
 
 
 # forms view

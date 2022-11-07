@@ -1,7 +1,9 @@
-#form_new_user{
-    background-color: red;
+body{
+    font-family: helvetica;
 }
-
+ul {
+    list-style-type: none;
+}
 a{
     text-decoration: none;
 }
@@ -16,6 +18,70 @@ a{
     height:20px;
 }
 
+
+.invoice_item{
+    background-color:gray;
+    border:1px solid black;
+}
+
+
+
+.tab:hover{
+    border-bottom:1px solid blue;
+}
+.sous-tab{
+    position:absolute;
+    z-index: 1;
+    width:40%;
+    visibility: visible;
+}
+
+
+.scroll_img{
+    transform: rotate(91deg);
+    width:15px;
+}
+
+.content-tab{
+    position:absolute;
+    background-color:white;
+    width:100%
+}
+
+.content-tab a li{
+    height: 30px;
+    margin-left:-27%;
+}
+
+.content-tab a li:hover{
+    border-bottom: 1px solid gray;
+    font-size: 20px;
+    padding-top:10px;
+    height:50px;
+    background-color:rgba(0, 0, 0, 0.1);
+}
+.point{
+    background-color: white;
+    width:40px;
+    height:40px;
+    position:absolute;
+    transform: rotate(45deg);
+    border:1px solid black;
+    margin-left: 50%;
+}
+#search_bar{
+    background-color:rgba(200, 200, 200, 0.5);
+    border:none;height:35px;
+    width:71%;
+    text-align:center;
+     border: 1px solid white;
+}
+
+
+#form_new_user{
+    background-color: red;
+}
+
 #invoice_sheet{
     border-radius : 2%;
     width:800px;
@@ -25,7 +91,6 @@ a{
     color:black;
 }
 
-.invoice_item{
-    background-color:gray;
-    border:1px solid black;
+#content-profile:hover #sous-tab-profile{
+    background-color:red;
 }
