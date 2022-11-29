@@ -1,54 +1,71 @@
 {% extends 'base.html' %}
-
-{% block title %} My company {% endblock %}
+{% load static %}
+{% block title %} Mes Companies {% endblock %}
 
 {% block content %}
+    <div class="col-12 justify-content-center " >
+        <div style="border:none;color:white" class="mt-5">
+            <div class="row mt-5 justify-content-center">
+                <h3>
+                    Mes Companies
+                </h3>
+            </div>
+            <!-- Main content -->
+            <div class=" p-3 mb-3">
+                  <!-- Table row -->
+                  <div class="row">
+                    <div class="col-12 table-responsive">
+                          <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                      <th>Id</th>
+                                      <th>Nom</th>
+                                      <th>Secteur</th>
+                                      <th>Création</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for company in companies %}
+
+                                            <tr class="company-list">
+
+                                                <td>
+                                                    <a style="color: white;text-decoration: none;" href="http://localhost:8000/check/?company={{ company.id }}">
+                                                        {{ company.id }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a style="color: white;text-decoration: none;" href="http://localhost:8000/check/?company={{ company.id }}">
+                                                        {{ company.name }}
+                                                    </a>
+                                                </td>
+
+                                                <td>
+                                                    <a style="color: white;text-decoration: none;" href="http://localhost:8000/check/?company={{ company.id }}">
+                                                        {{ company.sector }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a style="color: white;text-decoration: none;" href="http://localhost:8000/check/?company={{ company.id }}">
+                                                        {{ company.creating_date }}
+                                                    </a>
+                                                </td>
 
 
-<div class="col-12">
-    <div class="row mt-4 justify-content-center">
-        <h3>
-            Mes compagnies
-        </h3>
-    </div>
+                                            </tr>
 
+                                        {% endfor %}
 
-    <div class="row mt-4 bg-secondary">
-        <div class="col-1">
-            Id
+                                </tbody>
+                          </table>
+                    </div>
+                    <!-- /.col -->
+                  </div>
+                  <!-- /.row -->
+
+        </div><!-- /.row -->
         </div>
-        <div class="col-6">
-            Nom
         </div>
 
-        <div class="col-3">
-            Secteur
-        </div>
-        <div class="col-2">
-            Création
-        </div>
-    </div>
-        {% for company in companies %}
-            <a href="http://localhost:8000/check/?company={{ company.id }}">
-                <div class="row">
-                    <div class="col-1">
-                        {{ company.id }}
-                    </div>
-                    <div class="col-6">
-                        {{ company.name }}
-                    </div>
-
-                    <div class="col-3">
-                        {{ company.sector }}
-                    </div>
-                    <div class="col-2">
-                        {{ company.creating_date }}
-                    </div>
-                    </div>
-            </a>
-            {% endfor %}
-
-
-</div>
 
 {% endblock %}

@@ -20,59 +20,55 @@
                 background-size: cover;background-repeat:no-repeat;">
 
         <div class="container-fluid">
-            <div class="row pb-3" style="background-color: rgba(0 ,0 ,220, 0.5);height:100px;">
-
-                <div class=" col-lg-7 col-md-12 col-sm-12 d-flex align-items-end mt-3 mb-2" style="min-width:400px;">
-                    <form method="GET" action="{% url 'search' %}" style="width:100%;margin:auto">
-                        <input type="text" name="q" placeholder="Rechercher" class="rounded" id="search_bar">
-                        <input type="submit" value="Rechercher"
-                               style="font-size:15px;border:none;height:35px;width:19%;min-width:100px" class="ml-1 rounded">
-                    </form>
+        <div class="row">
+            <div class="col-2 left-bar sidebar-dark-primary" style="color:white;background-color: #212529;">
+                <div class="row p-1 pt-2 justify-content-center border-bottom">
+                    <h3>
+                        Mahay Fac
+                    </h3>
                 </div>
-                <div class="col-lg-5 col-md-12 col-sm-12 d-flex align-items-end mt-2" style="min-width:420px;text-align:center">
-                    <div id="content-profile" style="border:1px solid black;width:200px;margin:auto;"
-                         class="tab">
-                        <a href="{% url 'profile' %}">
-                            <h5 style="color:white;">
-                                MON PROFIL
-                                <img src="{% static 'images/list.png' %}" class="scroll_img" alt="compagnie">
+                <a href="{% url 'profile' %}" style="text-decoration: none">
+                    <div class="row p-2 justify-content-center">
+                        <img src="{% static 'media/images/user/' %}{{ user_picture}}" class="rounded-circle mt-1" style="width:80px;height:80px">
+                    </div>
+                    <div class="row p-2 justify-content-center">
+
+                            <h5>
+                                {{ user.first_name }} {{ user.last_name }}
                             </h5>
-                        </a>
-                        <div id="sous-tab-profile" class="sous-tab" style="margin-left: -3%">
-                            <div class="point">
-                                .
-                            </div>
-                            <ul class="content-tab rounded ml-3" id="tab-content-profile">
-                                <a href="http://localhost:8000/profile/?update={{ session_id }}" style="text-decoration:none;color:black">
-                                   <li class="mt-2">
-                                          Mettre à jour
-
-                                    </li>
-                                </a>
-                                <a href="http://localhost:8000/profile/?logout={{ session_id }}" style="text-decoration:none;color:black">
-                                    <li>
-                                         Se Deconnecter
-
-                                    </li>
-                                </a>
-                            </ul>
-                        </div>
 
                     </div>
-                        <a href="{% url 'my_company' %}" class="tab" style="text-decoration:none;margin-left:4%;width:200px;margin:auto">
-                            <h5 style="color:white;">
-                                MA COMPAGNIE
-                                <img src="{% static 'images/list.png' %}" class="scroll_img" alt="compagnie">
-                            </h5>
-                        </a>
+                </a>
+                <a href="{% url 'my_company' %}" class="tab" style="color:white;text-decoration:none;">
+                    <div class="row p-1 pt-2 mt-5 ">
+                        <img class="ml-1" src="{% static 'images/illustrations/company.png' %}" alt="company" style="width: 25px;height: 25px">
+                        <h3 class="ml-3 mt-1" style="font-size: 19px">
+                                Companies
+                        </h3>
+                    </div>
+                </a>
+                <div class="rounded p-1 ml-3" style="background-color: rgba(200, 200, 200, 0.1)">
+                    {% block left-bar-company %}
+                    {% endblock %}
                 </div>
-            </div>
 
+                <a href="{% url 'create_company' %}" class="tab" style="color:white;text-decoration:none;">
+                    <div class="row p-1 pt-2 ">
+                        <img class="ml-1" src="{% static 'images/illustrations/ajouter.png' %}" alt="Ajouter Companie" style="width: 25px;height: 25px">
+                        <h3 class="ml-3 mt-1" style="font-size: 19px">
+                                Ajouter
+                        </h3>
+                    </div>
+                </a>
             </div>
+            <div class="col-10 " style="height: 100vh; background-color: #1a252f">
                 {% block content %}
                 {% endblock %}
             </div>
+
         </div>
+        </div>
+
     </body>
 </html>
 

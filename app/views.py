@@ -8,11 +8,47 @@ from django.contrib.auth.hashers import make_password, check_password
 import datetime
 
 
-def home(request):
+def session_check(request):
+    session = None
     try:
-        session_id = request.session['id']
-        return redirect(profile)
+        session = request.session['id']
     except KeyError:
+        session = None
+    return session
+
+
+def session_set(request, id):
+    try:
+        request.session['id'] = id
+        return 0
+    except:
+        return -1
+
+def session_del(request):
+    del request.session['id']
+    return 0
+
+
+def home(request):
+    if session_check(request) is not None:
+        session_id = request.session['id']
+        # selecting from db
+        user = User.objects.get(id=session_id)
+        first_name = user.first_name
+        last_name = user.last_name
+        user_gender = user.gender
+
+        user_company = user.company
+        user_function = user.function
+
+        user_address = user.address
+        user_tel = user.tel
+        user_mail = user.mail
+
+        # picture
+        user_picture = str(user.picture).split('/')[-1]
+        return redirect(profile)
+    else:
         return render(request, 'tab/home.html', locals())
 
 
@@ -87,10 +123,10 @@ def new_user(request):
 
 # authentifiaction
 def auth(request):
-    try:
-        session_id = request.session['id']
+    if session_check(request) is not None:
+        session_id = session_check(request)
         return redirect(profile)
-    except KeyError:
+    else:
         auth = Authentificaton(request.POST)
         bolean = False
         if auth.is_valid():
@@ -105,7 +141,13 @@ def auth(request):
                 # password True ?
                 if check_password(password, user.password):
                     # valid
-                    request.session['id'] = user.id
+                    request.session['id'] = session_id = user.id
+                    # selecting from db
+                    user = User.objects.get(id=session_id)
+                    first_name = user.first_name
+                    last_name = user.last_name
+                    # picture
+                    user_picture = str(user.picture).split('/')[-1]
                     return redirect(profile)
                 else:
                     msg = 'Wrong password'
@@ -124,9 +166,8 @@ def auth(request):
 
 def profile(request):
     # session is set ?
-    try:
+    if  session_check(request) is not None:
         session_id = request.session['id']
-
         # selecting from db
         user = User.objects.get(id=session_id)
         first_name = user.first_name
@@ -182,12 +223,18 @@ def profile(request):
         else:
             return render(request, 'tab/profile.html', locals())
 
-    except KeyError:
+    else:
         return redirect(auth)
 
 
 def my_company(request):
-    session_id = request.session['id']
+    try:
+        session_id = request.session['id']
+        user = request.session['id']
+        user = User.objects.get(id=user)
+        user_picture = str(user.picture).split('/')[-1]
+    except:
+        return redirect('authentification')
     companies = 'None'
     # checking companies
     try:
@@ -348,28 +395,30 @@ def check(request, arg):
     if request.method == 'GET':
         try:
             if 'company' in request.GET:
-                data = eval('{}'.format(str(view).capitalize())).objects.get(id=request.GET['company'])
+                data = company = eval('{}'.format(str(view).capitalize())).objects.get(id=request.GET['company'])
                 picture = str(data.picture).split('/')[-1]
+                user = User.objects.get(id=data.author)
+                user_picture = str(user.picture).split('/')[-1]
                 return render(request, 'check/company.html', locals())
 
             if 'clients' in request.GET:
-                company = Company.objects.get(id=request.GET['clients'])
+                company = data = Company.objects.get(id=request.GET['clients'])
                 clients = Client.objects.filter(company_id=company.id).order_by('full_name')
                 return render(request, 'check/clients.html', locals())
 
             if 'client' in request.GET:
                 client = Client.objects.get(id=request.GET['client'])
-                company = Company.objects.get(id=client.company_id)
+                company = data = Company.objects.get(id=client.company_id)
                 return render(request, 'check/client.html', locals())
 
             if 'invoices' in request.GET:
-                company = Company.objects.get(id=int(request.GET['invoices']))
+                company = data = Company.objects.get(id=int(request.GET['invoices']))
                 invoices = Invoice.objects.filter(company=int(company.id))
                 return render(request, 'check/invoices.html', locals())
 
             if 'invoice' in request.GET:
                 invoice = Invoice.objects.get(id=int(request.GET['invoice']))
-                company = Company.objects.get(id=int(invoice.company))
+                company = data = Company.objects.get(id=int(invoice.company))
 
                 items_value = []
                 invoice_item = invoice.item.split(', ')
@@ -393,7 +442,8 @@ def check(request, arg):
 
                 return render(request, 'check/invoice.html', locals())
         except:
-                return HttpResponse('Désolé, une erreur s\'est reproduite')
+            return HttpResponse('Désolé, une erreur s\'est reproduite')
+
 
 def remove(request, arg):
     msg = ''
@@ -437,4 +487,3 @@ def export(request, id):
 
     else:
         return HttpResponse("Une Erreur s'est reproduite ")
-
