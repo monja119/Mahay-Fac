@@ -1,6 +1,58 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %} Nouveau client {% endblock %}
+
+{% block left-bar-company %}
+    <div class="row ml-2 dropdown">
+    <a style="color: white;text-decoration: none;" href="http://localhost:8000/check/?company={{ data.id }}">
+        <h5>
+            {{ data.name }}
+        </h5>
+    </a>
+
+    </div>
+    <div class="row ml-2 mt-1 pt-1 dropdown">
+        <img class="ml-1" src="{% static 'images/illustrations/invoice.png' %}" alt="company" style="width: 25px;height: 25px">
+        <a style="text-decoration: none;color: white" href="http://localhost:8000/check/?invoices={{ data.id }}">
+            <h3 class="mt-1 ml-2" style="font-size: 19px">
+                Mes Factures
+            </h3>
+        </a>
+    </div>
+    <div class="row ml-2 mt-1 pt-1 dropdown">
+        <img class="ml-1" src="{% static 'images/illustrations/clients.png' %}" alt="company" style="width: 25px;height: 25px">
+        <a style="text-decoration: none;color: white" href="http://localhost:8000/check/?clients={{ data.id }}">
+            <h3 class="mt-1 ml-2" style="font-size: 19px">
+                Mes Clients
+            </h3>
+        </a>
+    </div>
+    <div class="row ml-2 mt-1 pt-1 dropdown">
+        <img class="ml-1" src="{% static 'images/illustrations/writing.png' %}" alt="company" style="width: 25px;height: 25px">
+        <a style="text-decoration: none;color: white" href="http://localhost:8000/create/invoice?company={{ data.id }}">
+            <h3 class="mt-1 ml-2" style="font-size: 19px">
+                Elaborer
+            </h3>
+        </a>
+    </div>
+    <div class="row ml-2 mt-1 pt-1 dropdown">
+        <img class="ml-1" src="{% static 'images/illustrations/update.png' %}" alt="company" style="width: 25px;height: 25px">
+        <a style="text-decoration: none;color: white" href="http://localhost:8000/company/?update={{ data.id}}">
+            <h3 class="mt-1 ml-2" style="font-size: 19px">
+                Update
+            </h3>
+        </a>
+    </div>
+    <div class="row ml-2 mt-1 pt-1 dropdown">
+        <img class="ml-1" src="{% static 'images/illustrations/bin.png' %}" alt="company" style="width: 25px;height: 25px">
+        <a style="text-decoration: none;color: white" href="http://localhost:8000/remove/?company={{ data.id}}">
+            <h3 class="mt-1 ml-2" style="font-size: 19px">
+                Suprrimer
+            </h3>
+        </a>
+    </div>
+{% endblock %}
+
 
 {% block content %}
 <div class="col-10 justify-content-center " >

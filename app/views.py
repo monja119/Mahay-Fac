@@ -404,22 +404,29 @@ def check(request, arg):
             if 'clients' in request.GET:
                 company = data = Company.objects.get(id=request.GET['clients'])
                 clients = Client.objects.filter(company_id=company.id).order_by('full_name')
+                user = User.objects.get(id=company.author)
+                picture = str(data.picture).split('/')[-1]
                 return render(request, 'check/clients.html', locals())
 
             if 'client' in request.GET:
                 client = Client.objects.get(id=request.GET['client'])
                 company = data = Company.objects.get(id=client.company_id)
+                user = User.objects.get(id=company.author)
+                picture = str(data.picture).split('/')[-1]
                 return render(request, 'check/client.html', locals())
 
             if 'invoices' in request.GET:
                 company = data = Company.objects.get(id=int(request.GET['invoices']))
                 invoices = Invoice.objects.filter(company=int(company.id))
+                user = User.objects.get(id=company.author)
+                picture = str(data.picture).split('/')[-1]
                 return render(request, 'check/invoices.html', locals())
 
             if 'invoice' in request.GET:
                 invoice = Invoice.objects.get(id=int(request.GET['invoice']))
                 company = data = Company.objects.get(id=int(invoice.company))
-
+                user = User.objects.get(id=company.author)
+                picture = str(data.picture).split('/')[-1]
                 items_value = []
                 invoice_item = invoice.item.split(', ')
                 invoice_quatity = invoice.quantity.split(', ')
