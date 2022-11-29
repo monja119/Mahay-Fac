@@ -28,10 +28,10 @@ class User(models.Model):
 
 class Client(models.Model):
     full_name = models.CharField(max_length=50)
-    gender = models.CharField(max_length=6)
-    company = models.CharField(max_length=50)
+    company_id = models.CharField(max_length=50)
+    address = models.CharField(max_length=50)
+    tel = models.IntegerField(max_length=50)
     mail = models.EmailField(max_length=50)
-    company_id = models.IntegerField()
 
 
 class Company(models.Model):

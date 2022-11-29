@@ -58,16 +58,36 @@
 
 
 {% block content %}
+{% if size == 0 %}
+ <div class="col-10">
+     <div class="row mt-5 justify-content-center">
+        <h3 style="text-align: center;color: white;margin-top: 15%">
+            Vous n'avez pas encore de clients
+        </h3>
+     </div>
+     <div class="row mt-5 justify-content-center">
+        <a style="text-decoration: none;color: white" href="http://localhost:8000/create/client?company={{ company.id }}">
+            <button type="button" class="btn mt-1 ml-2">
+                Ajouter un client
+            </button>
+        </a>
+     </div>
+     <div class="row mt-5 justify-content-center">
+        <img class="ml-1" src="{% static 'images/illustrations/clients.png' %}" alt="company" style="width: 50px;height: 50px">
+     </div>
+ </div>
+{% else %}
 
+<div class="row justify-content-center">
 <div class="col-10">
-    <div class="row mt-4 justify-content-center">
-        <h3>
+    <div class="row mt-5 justify-content-center">
+        <h3 style="color: white">
             Mes Clients
         </h3>
     </div>
 
 
-    <div class="row mt-4 bg-secondary">
+    <div class="row pt-3 pb-3 mt-4 bg-secondary rounded">
         <div class="col-8">
             Nom complet
         </div>
@@ -76,8 +96,8 @@
         </div>
     </div>
         {% for client in clients %}
-            <a href="http://localhost:8000/check/?client={{ client.id }}">
-                <div class="row">
+            <a href="http://localhost:8000/check/?client={{ client.id }}" style="text-decoration: none">
+                <div class="row bg-dark mb-5 pt-2 pb-2 border-bottom">
                     <div class="col-8">
                         {{ client.full_name }}
                     </div>
@@ -91,10 +111,11 @@
 
     <div class="row justify-content-center">
         <a href="{% url 'create_client' %}">
-            <input type="submit" value="Nouveau client" class="btn-primary">
+            <input type="submit" value="Ajouter" class="btn">
         </a>
     </div>
 
 </div>
-
+</div>
+{% endif %}
 {% endblock %}

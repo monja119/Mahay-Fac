@@ -2,78 +2,126 @@
 {% load static %}
 {% block title %} Création Compagnie {% endblock %}
 
-{% block left-bar-company %}
-    <div class="row ml-2 dropdown">
-    <a style="color: white;text-decoration: none;" href="http://localhost:8000/check/?company={{ data.id }}">
-        <h5>
-            {{ data.name }}
-        </h5>
-    </a>
-
-    </div>
-    <div class="row ml-2 mt-1 pt-1 dropdown">
-        <img class="ml-1" src="{% static 'images/illustrations/invoice.png' %}" alt="company" style="width: 25px;height: 25px">
-        <a style="text-decoration: none;color: white" href="http://localhost:8000/check/?invoices={{ data.id }}">
-            <h3 class="mt-1 ml-2" style="font-size: 19px">
-                Mes Factures
-            </h3>
-        </a>
-    </div>
-    <div class="row ml-2 mt-1 pt-1 dropdown">
-        <img class="ml-1" src="{% static 'images/illustrations/clients.png' %}" alt="company" style="width: 25px;height: 25px">
-        <a style="text-decoration: none;color: white" href="http://localhost:8000/check/?clients={{ data.id }}">
-            <h3 class="mt-1 ml-2" style="font-size: 19px">
-                Mes Clients
-            </h3>
-        </a>
-    </div>
-    <div class="row ml-2 mt-1 pt-1 dropdown">
-        <img class="ml-1" src="{% static 'images/illustrations/writing.png' %}" alt="company" style="width: 25px;height: 25px">
-        <a style="text-decoration: none;color: white" href="http://localhost:8000/create/invoice?company={{ data.id }}">
-            <h3 class="mt-1 ml-2" style="font-size: 19px">
-                Elaborer
-            </h3>
-        </a>
-    </div>
-    <div class="row ml-2 mt-1 pt-1 dropdown">
-        <img class="ml-1" src="{% static 'images/illustrations/update.png' %}" alt="company" style="width: 25px;height: 25px">
-        <a style="text-decoration: none;color: white" href="http://localhost:8000/company/?update={{ data.id}}">
-            <h3 class="mt-1 ml-2" style="font-size: 19px">
-                Update
-            </h3>
-        </a>
-    </div>
-    <div class="row ml-2 mt-1 pt-1 dropdown">
-        <img class="ml-1" src="{% static 'images/illustrations/bin.png' %}" alt="company" style="width: 25px;height: 25px">
-        <a style="text-decoration: none;color: white" href="http://localhost:8000/remove/?company={{ data.id}}">
-            <h3 class="mt-1 ml-2" style="font-size: 19px">
-                Suprrimer
-            </h3>
-        </a>
-    </div>
-{% endblock %}
-
-
 {% block content %}
+
+<div class="row justify-content-center mb-5">
+
 <div class="col-10 justify-content-center " >
-    <div class="row justify-content-center mt-4">
-        <h1>
-            <h1>
-                Création compagnie
-            </h1>
+    <div class="row justify-content-center mt-5">
+        <h1 style="text-align: center;color: white">
+          Création d'une nouvelle companie
         </h1>
     </div>
 
+    <div class="card m-auto">
+    <div class="card-body register-card-body">
+      <p class="login-box-msg">Ajouter une nouvelle companie</p>
 
-    <form method="post" action="{% url 'create_company' %}" enctype="multipart/form-data">
-        <p style="color:red"> {{ error_msg }} </p>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div class="row justify-content-center">
-            <input class="btn-primary" type="submit" value="Créer">
+      <form method="post" action="{% url 'create_company' %}" enctype="multipart/form-data">
+        <div class="input-group mb-3 justify-content-center">
+          <p style="color:red"> {{ error_msg }} </p>
+            {% csrf_token %}
         </div>
-    </form>
+          <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Nom de la companie" name="name" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="file" class="form-control" name="picture" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Status" name="status" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="NIF STAT / Numéro / ..." name="number" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
 
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Secteur" name="sector" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Date de création" name="creating_date" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Nombre de salarié" name="salary_number" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Addresse" name="address" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="number" class="form-control" placeholder="Telephone" name="tel" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="Email" name="mail" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Site web" name="website" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Ajouter</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+    </div>
+    <!-- /.form-box -->
+  </div>
 </div>
-
+</div>
 {% endblock %}

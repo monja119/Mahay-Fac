@@ -57,43 +57,60 @@
 
 
 {% block content %}
-
-<div class="col-10">
-    <div class="row mt-4 justify-content-center">
-        <h3>
-            {{ company.name }}
+{% if size == 0 %}
+ <div class="col-10">
+     <div class="row mt-5 justify-content-center">
+        <h3 style="text-align: center;color: white;margin-top: 15%">
+            Vous n'avez pas encore de factures
         </h3>
+     </div>
+     <div class="row mt-5 justify-content-center">
+        <a style="text-decoration: none;color: white" href="http://localhost:8000/create/invoice?company={{ data.id }}">
+            <button type="button" class="btn mt-1 ml-2">
+                Elaborer une Facture
+            </button>
+        </a>
+     </div>
+     <div class="row mt-5 justify-content-center">
+        <img class="ml-1" src="{% static 'images/illustrations/writing.png' %}" alt="company" style="width: 50px;height: 50px">
+     </div>
+ </div>
+{% else %}
+    <div class="col-10">
+        <div class="row mt-4 justify-content-center">
+            <h3>
+                {{ company.name }}
+            </h3>
+        </div>
+
+
+        <div class="row mt-4 bg-secondary">
+            <div class="col-6">
+                Destinataire
+            </div>
+            <div class="col-4">
+                Numéro
+            </div>
+            <div class="col-2">
+                Création
+            </div>
+        </div>
+            {% for invoice in invoices %}
+                <a href="http://localhost:8000/check/?invoice={{ invoice.id }}">
+                    <div class="row">
+                        <div class="col-6">
+                            {{ invoice.destination }}
+                        </div>
+
+                        <div class="col-3">
+                            {{ invoice.number }}
+                        </div>
+                        <div class="col-2">
+                            {{ company.date }}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
     </div>
-
-
-    <div class="row mt-4 bg-secondary">
-        <div class="col-6">
-            Destinataire
-        </div>
-        <div class="col-4">
-            Numéro
-        </div>
-        <div class="col-2">
-            Création
-        </div>
-    </div>
-        {% for invoice in invoices %}
-            <a href="http://localhost:8000/check/?invoice={{ invoice.id }}">
-                <div class="row">
-                    <div class="col-6">
-                        {{ invoice.destination }}
-                    </div>
-
-                    <div class="col-3">
-                        {{ invoice.number }}
-                    </div>
-                    <div class="col-2">
-                        {{ company.date }}
-                    </div>
-                </div>
-            </a>
-            {% endfor %}
-
-
-</div>
+{% endif %}
 {% endblock %}

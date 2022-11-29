@@ -241,7 +241,7 @@ def my_company(request):
         if request.GET:
             if 'update' in request.GET:
                 id = request.GET['update']
-                company = Company.objects.get(id=id)
+                company = data = Company.objects.get(id=id)
                 return render(request, 'tab/my_company_update.html', locals())
         elif request.POST:
             company = Company.objects.get(id=request.POST['id'])
@@ -306,15 +306,14 @@ def create_company(request):
                 return redirect(my_company)
         else:
             form = CreateCompany()
+            user = User.objects.get(id=session_check(request))
+            user_picture = str(user.picture).split('/')[-1]
             return render(request, 'creation/company.html', locals())
     except KeyError:
         return redirect(auth)
 
 
 def create_invoice(request):
-    if request.GET:
-        if 'company' in request.GET:
-            company_id = request.GET['company']
     if request.POST:
         invoice = Invoice()
         company_id = request.POST['company_id']
@@ -345,6 +344,12 @@ def create_invoice(request):
         invoice.save()
         return redirect('http://localhost:8000/check/?invoice={}'.format(invoice.id))
     else:
+        if request.GET:
+            if 'company' in request.GET:
+                company = data = Company.objects.get(id=int(request.GET['company']))
+                company_id = request.GET['company']
+                user = User.objects.get(id=company.author)
+                user_picture = str(user.picture).split('/')[-1]
         return render(request, 'creation/invoice.html', locals())
 
 
@@ -367,23 +372,22 @@ def client(request):
 
 
 def create_client(request):
-    if 'company' in request.GET:
-        company_id = request.GET['company']
-    company = ''
-    form = NewClientForm(request.GET)
-    if form.is_valid():
+    if request.method == 'POST':
         client = Client()
-        client.full_name = form.cleaned_data['full_name']
-        client.gender = form.cleaned_data['gender']
-        client.company = form.cleaned_data['company']
-        client.mail = form.cleaned_data['mail']
-        client.company_id = request.GET['company_id']
+        client.full_name = request.POST['full_name']
+        client.address = request.POST['address']
+        client.tel = request.POST['tel']
+        client.mail = request.POST['email']
+        client.company_id = request.POST['company_id']
         client.save()
-        url = 'http://localhost:8000/check/?clients={}'.format(str(client.company_id))
+        print(str(request.POST['company_id']))
+        url = 'http://localhost:8000/check/?clients={}'.format(str(request.POST['company_id']))
         return redirect(url)
 
     else:
-        form = NewClientForm()
+        company = data = Company.objects.get(id=int(request.GET['company']))
+        user = User.objects.get(id=company.author)
+        user_picture = str(user.picture).split('/')[-1]
         return render(request, 'creation/client.html', locals())
 
 
@@ -405,21 +409,27 @@ def check(request, arg):
                 company = data = Company.objects.get(id=request.GET['clients'])
                 clients = Client.objects.filter(company_id=company.id).order_by('full_name')
                 user = User.objects.get(id=company.author)
-                picture = str(data.picture).split('/')[-1]
+                user_picture = str(user.picture).split('/')[-1]
+
+                size = len(clients)
                 return render(request, 'check/clients.html', locals())
 
             if 'client' in request.GET:
                 client = Client.objects.get(id=request.GET['client'])
                 company = data = Company.objects.get(id=client.company_id)
                 user = User.objects.get(id=company.author)
-                picture = str(data.picture).split('/')[-1]
+                user_picture = str(user.picture).split('/')[-1]
+
+
                 return render(request, 'check/client.html', locals())
 
             if 'invoices' in request.GET:
                 company = data = Company.objects.get(id=int(request.GET['invoices']))
                 invoices = Invoice.objects.filter(company=int(company.id))
                 user = User.objects.get(id=company.author)
-                picture = str(data.picture).split('/')[-1]
+                user_picture = str(user.picture).split('/')[-1]
+
+                size = len(invoices)
                 return render(request, 'check/invoices.html', locals())
 
             if 'invoice' in request.GET:
