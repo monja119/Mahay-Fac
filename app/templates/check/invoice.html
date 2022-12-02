@@ -56,8 +56,8 @@
 
 
 {% block content %}
-
-<div class="col-10">
+<div class="row justify-content-center">
+<div class="col-11" >
     <div class="row mt-4 justify-content-center">
         <h1>
             Facture de {{ invoice.destination }}
@@ -87,14 +87,15 @@
 
                 <td>
                     <p>
+                        à : {{ invoice.destination }}
+                    </p>
+                    <p>
                            Date : {{ invoice.date }}
                         <br>
                         Facture n° : {{ invoice.number }}
                     </p>
                     <br>
-                    <p>
-                        à : {{ invoice.destination }}
-                    </p>
+
                 </td>
             </tr>
             <tr>
@@ -182,9 +183,10 @@
          </table>
     <div class="row mt-5 justify-content-center">
         <a href="http://localhost:8000/export/?invoice={{ invoice.id }}">
-            <input type="button" value="Exporter PDF" class="btn-primary rounded" style="width:150px">
+            <input type="button" value="Exporter PDF" class="btn btn-success rounded" style="width:150px">
         </a>
     </div>
+</div>
 </div>
 
 

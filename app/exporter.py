@@ -47,10 +47,10 @@ def exporter(invoice_id):
     data = [
 
         # head of the table
-        ['Compagnie : {}'.format(company.name), '', '', 'Date : {}'.format(invoice.date)],
-        ['Nif Stat        : {}'.format(company.number), '', '', 'Facture n° : {}'.format(invoice.number)],
-        ['Addresse    : {}'.format(company.address), '', '', ''],
-        [company.mail, '', '', 'à : {}'.format(invoice.destination)],
+        ['Compagnie : {}'.format(company.name), '', '', 'à : {}'.format(invoice.destination)],
+        ['Nif Stat        : {}'.format(company.number), '', '', ''],
+        ['Addresse    : {}'.format(company.address), '', '', 'Date : {}'.format(invoice.date)],
+        [company.mail, '', '',  'Facture n° : {}'.format(invoice.number)],
         ['', '', '', ''],
         ['Objets', 'Quantités', 'Prix Unitaire', 'Total'],
 

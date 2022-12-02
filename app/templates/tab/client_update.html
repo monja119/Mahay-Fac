@@ -3,23 +3,70 @@
 {% block title %} {{ client.full_name }} {% endblock %}
 
 {% block content %}
+
+<div class="row justify-content-center mb-5">
 <div class="col-10 justify-content-center " >
-    <div class="row justify-content-center mt-4">
-        <h1>
-            {{ client.full_name }} - mettre à jour
+    <div class="row justify-content-center mb-5 mt-5">
+        <h1 style="text-align: center;color: white">
+          {{ client.full_name }} - mettre à jour
         </h1>
     </div>
-    <form method="POST" action="{% url 'client' %}">
-        {% csrf_token %}
 
-        <label for="full_name">
-            Nom complet :
-        </label>
-            <input type="text" name="full_name" value="{{ client.full_name }}">
-        <br>
-        <input type="hidden" value="{{ company.id }}"  name="company_id">
-        <input type="hidden" value="{{ client.id }}"  name="client_id">
-        <input type="submit" value="Ajouter">
-    </form>
+    <div class="card m-auto">
+    <div class="card-body register-card-body">
+      <p class="login-box-msg">Veuiller remplir le champ</p>
+
+      <form method="POST" action="{% url 'client' %}" enctype="multipart/form-data">
+        <div class="input-group mb-3 justify-content-center">
+          <p style="color:red"> {{ error_msg }} </p>
+            {% csrf_token %}
+            <input type="hidden" value="{{ client.id }}"  name="client_id">
+            <input type="hidden" value="{{ company.id }}"  name="company_id">
+        </div>
+          <div class="input-group mb-3">
+          <input type="text" class="form-control" value="{{ client.full_name }}" name="full_name" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" value="{{ client.address}}" name="address" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" value="{{ client.tel }}" name="tel" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" value="{{ client.mail }}" name="email" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-success btn-block">Mettre à jour</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+    </div>
+    <!-- /.form-box -->
+  </div>
 </div>
+</div>
+
 {% endblock %}

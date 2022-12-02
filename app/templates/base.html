@@ -28,7 +28,7 @@
                     </h3>
                 </div>
                 <a href="{% url 'profile' %}" style="text-decoration: none">
-                    <div class="row p-2 justify-content-center">
+                    <div class="row p-2 justify-content-center content-left-bar">
                         <img src="{% static 'media/images/user/' %}{{ user_picture}}" class="rounded-circle mt-1" style="width:80px;height:80px">
                     </div>
                     <div class="row p-2 justify-content-center">
@@ -40,7 +40,7 @@
                     </div>
                 </a>
                 <a href="{% url 'my_company' %}" class="tab" style="color:white;text-decoration:none;">
-                    <div class="row p-1 pt-2 mt-5 ">
+                    <div class="row p-1 pt-2 mt-5 content-left-bar">
                         <img class="ml-1" src="{% static 'images/illustrations/company.png' %}" alt="company" style="width: 25px;height: 25px">
                         <h3 class="ml-3 mt-1" style="font-size: 19px">
                                 Companies
@@ -53,7 +53,7 @@
                 </div>
 
                 <a href="{% url 'create_company' %}" class="tab" style="color:white;text-decoration:none;">
-                    <div class="row p-1 pt-2 ">
+                    <div class="row p-1 pt-2 content-left-bar">
                         <img class="ml-1" src="{% static 'images/illustrations/ajouter.png' %}" alt="Ajouter Companie" style="width: 25px;height: 25px">
                         <h3 class="ml-3 mt-1" style="font-size: 19px">
                                 Ajouter

@@ -358,6 +358,9 @@ def client(request):
         if 'update' in request.GET:
             client = Client.objects.get(id=request.GET['update'])
             company = Company.objects.get(id=client.company_id)
+            user = User.objects.get(id=company.author)
+            user_picture = str(user.picture).split('/')[-1]
+
             return render(request, 'tab/client_update.html', locals())
 
     if request.POST:
@@ -366,6 +369,10 @@ def client(request):
 
         client = Client.objects.get(id=client_id)
         client.full_name = request.POST['full_name']
+        client.address = request.POST['address']
+        client.tel = request.POST['tel']
+        client.mail = request.POST['email']
+        client.company_id = request.POST['company_id']
         client.save()
         url = 'http://localhost:8000/check/?client={}'.format(str(request.POST['client_id']))
         return redirect(url)
@@ -436,7 +443,7 @@ def check(request, arg):
                 invoice = Invoice.objects.get(id=int(request.GET['invoice']))
                 company = data = Company.objects.get(id=int(invoice.company))
                 user = User.objects.get(id=company.author)
-                picture = str(data.picture).split('/')[-1]
+                user_picture = str(user.picture).split('/')[-1]
                 items_value = []
                 invoice_item = invoice.item.split(', ')
                 invoice_quatity = invoice.quantity.split(', ')
